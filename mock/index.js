@@ -1,4 +1,4 @@
-const { listMileages } = require("./vihecle");
+const { listMileages, listEnergyConsumptions } = require("./vihecle");
 
 const myRouter = (req, res, next) => {
   /** example */
@@ -11,6 +11,8 @@ const myRouter = (req, res, next) => {
 const generateRewrites = base => {
   const rewrites = {};
   rewrites[`${base}/vehicles/*/mileages?at_gt=*&at_lt=*`] = "/listMileages";
+  rewrites[`${base}/vehicles/*/energyconsumptions?at_gt=*&at_lt=*`] =
+    "/listEnergyConsumptions";
   return rewrites;
 };
 
@@ -27,6 +29,10 @@ function mock({ base = "/chart/v0" }) {
      */
     db: {
       listMileages: listMileages("xxxx", {
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listEnergyConsumptions: listEnergyConsumptions("xxxx", {
         at_gt: "2019-01-01",
         at_lt: "2020-01-01",
       }),

@@ -54,5 +54,24 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * List energy consumption records of an vehicle
+     *
+     * @param {ListEnergyConsumptionsRequest} req listEnergyConsumptions request
+     * @returns {Promise<ListEnergyConsumptionsResponse>} A paged array of energy consumption records
+     */
+    listEnergyConsumptions: (req = {}) => {
+      const { vehicleId, query, headers } = req;
+
+      if (!vehicleId)
+        throw new Error("vehicleId is required for listEnergyConsumptions");
+      if (!query) throw new Error("query is required for vehicle");
+
+      return fetch(`${this.base}/vehicles/${vehicleId}/energyconsumptions`, {
+        method: "get",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
 }

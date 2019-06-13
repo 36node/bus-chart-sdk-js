@@ -31,3 +31,32 @@ describe("## SDK vehicle mileages", () => {
     expect(mileageRecord.mileage).toBeGreaterThan(0);
   });
 });
+
+describe("## SDK vehicle energy consumptions", () => {
+  it("must provide vehicleId", () => {
+    const listEnergyConsumptions = () => sdk.vehicle.listEnergyConsumptions();
+
+    expect(listEnergyConsumptions).toThrow(
+      "vehicleId is required for listEnergyConsumptions"
+    );
+  });
+
+  it("should list records", async () => {
+    const result = await sdk.vehicle.listEnergyConsumptions({
+      vehicleId: "xxxx",
+      query: {
+        filter: {
+          at: {
+            $gt: "2019-01-01",
+            $lt: "2020-01-01",
+          },
+        },
+      },
+    });
+
+    expect(result.body.length).toBeGreaterThan(0);
+    const energyConsumptionRecord = result.body[0];
+    expect(energyConsumptionRecord.at).toBeTruthy();
+    expect(energyConsumptionRecord.mileage).toBeGreaterThan(0);
+  });
+});

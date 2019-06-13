@@ -21,6 +21,12 @@ declare namespace SDK {
      * List mileage records of an vehicle
      */
     listMileages(req: ListMileagesRequest): Promise<ListMileagesResponse>;
+    /**
+     * List energy consumption records of an vehicle
+     */
+    listEnergyConsumptions(
+      req: ListEnergyConsumptionsRequest
+    ): Promise<ListEnergyConsumptionsResponse>;
   }
 
   type ListMileagesRequest = {
@@ -40,12 +46,34 @@ declare namespace SDK {
     body: Array<MileageRecord>;
   };
 
+  type ListEnergyConsumptionsRequest = {
+    vehicleId: string;
+
+    query: {
+      filter: {
+        at: {
+          $gt: string;
+          $lt: string;
+        };
+      };
+    };
+  };
+
+  type ListEnergyConsumptionsResponse = {
+    body: Array<EnergyConsumptionRecord>;
+  };
+
   type Err = {
     code: string;
     message: string;
   };
 
   type MileageRecord = {
+    at: date;
+    mileage: number;
+  };
+
+  type EnergyConsumptionRecord = {
     at: date;
     mileage: number;
   };
