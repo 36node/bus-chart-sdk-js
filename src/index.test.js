@@ -2,7 +2,7 @@ import SDK from "./index";
 
 const sdk = new SDK({
   base: "http://localhost:3000/chart/v0",
-  token: ""
+  token: "",
 });
 
 describe("## SDK vehicle mileages", () => {
