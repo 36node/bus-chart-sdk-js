@@ -5,16 +5,26 @@
 ## Install
 
 ```bash
-yarn add module
+yarn add @36node/bus-chart-sdk
 ```
 
 ## Usage
 
 ```js
-const module = require("module");
+const SDK = require("@36node/bus-chart-sdk");
 
-module();
-//=> foo
+const sdk = new SDK({ base: "http://localhost:3000/chart/v0", token: "secret" });
+sdk.vehicle.listMileages({
+      vehicleId: "xxxx",
+      query: {
+        filter: {
+          at: {
+            $gt: "2019-01-01",
+            $lt: "2020-01-01",
+          },
+        },
+      },
+    });
 ```
 
 ## Contributing

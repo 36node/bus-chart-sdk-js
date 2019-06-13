@@ -23,7 +23,6 @@ describe("## SDK vehicle mileages", () => {
           },
         },
       },
-      headers: {},
     });
 
     expect(result.body.length).toBeGreaterThan(0);
