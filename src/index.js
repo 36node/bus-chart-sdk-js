@@ -46,6 +46,7 @@ export default class SDK {
       const { vehicleId, query, headers } = req;
 
       if (!vehicleId) throw new Error("vehicleId is required for listMileages");
+      if (!query) throw new Error("query is required for vehicle");
 
       return fetch(`${this.base}/vehicles/${vehicleId}/mileages`, {
         method: "get",

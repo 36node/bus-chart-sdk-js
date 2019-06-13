@@ -29,8 +29,8 @@ declare namespace SDK {
     query: {
       filter: {
         at: {
-          $gt?: string;
-          $lt?: string;
+          $gt: string;
+          $lt: string;
         };
       };
     };
