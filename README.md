@@ -27,6 +27,8 @@ sdk.vehicle.listMileages({
     });
 ```
 
+For more usages, see `index.test.js`.
+
 ## Contributing
 
 1. Fork it!
@@ -37,7 +39,7 @@ sdk.vehicle.listMileages({
 
 ## Author
 
-**module** © [36node](https://github.com/36node), Released under the [MIT](./LICENSE) License.
+**@36node/bus-chart-sdk** © [36node](https://github.com/36node), Released under the [MIT](./LICENSE) License.
 
 Authored and maintained by 36node with help from contributors ([list](https://github.com/36node/bus-chart-sdk-js/contributors)).
 
