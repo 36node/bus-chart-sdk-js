@@ -10,8 +10,8 @@ const myRouter = (req, res, next) => {
 
 const generateRewrites = base => {
   const rewrites = {};
-  rewrites[`${base}/vehicles/*/mileages?at_gt=*&at_lt=*`] = "/listMileages";
-  rewrites[`${base}/vehicles/*/energyconsumptions?at_gt=*&at_lt=*`] =
+  rewrites[`${base}/vehicles/*/mileages*`] = "/listMileages";
+  rewrites[`${base}/vehicles/*/energyconsumptions*`] =
     "/listEnergyConsumptions";
   return rewrites;
 };
