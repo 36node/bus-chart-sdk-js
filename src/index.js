@@ -25,7 +25,7 @@ export default class SDK {
    *
    * @param {Object} opt
    * @param {string} opt.base  base url
-   * @param {string} opt.token token for authorization
+   * @param {string} opt.token token fro authorization
    */
   constructor(opt = {}) {
     this.base = opt.base || "";
@@ -68,6 +68,30 @@ export default class SDK {
       if (!query) throw new Error("query is required for vehicle");
 
       return fetch(`${this.base}/vehicles/${vehicleId}/energyconsumptions`, {
+        method: "get",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
+  /**
+   * warning's methods
+   */
+  warning = {
+    /**
+     * List warnings statistics
+     *
+     * @param {ListWarningsStatisticsRequest} req listWarningsStatistics request
+     * @returns {Promise<ListWarningsStatisticsResponse>} An array of energy consumption records
+     */
+    listWarningsStatistics: (req = {}) => {
+      const { type, groupBy, query, headers } = req;
+
+      if (!type) throw new Error("type is required for listWarningsStatistics");
+      if (!groupBy)
+        throw new Error("groupBy is required for listWarningsStatistics");
+      if (!query) throw new Error("query is required for warning");
+      return fetch(`${this.base}/warnings/statistics/${type}/${groupBy}`, {
         method: "get",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },

@@ -1,4 +1,5 @@
 const { listMileages, listEnergyConsumptions } = require("./vihecle");
+const { listWarningsStatistics } = require("./warning");
 
 const myRouter = (req, res, next) => {
   /** example */
@@ -13,6 +14,8 @@ const generateRewrites = base => {
   rewrites[`${base}/vehicles/*/mileages*`] = "/listMileages";
   rewrites[`${base}/vehicles/*/energyconsumptions*`] =
     "/listEnergyConsumptions";
+  rewrites[`${base}/warnings/statistics/alert/producer*`] =
+    "/listWarningsStatisticsAlertProducer";
   return rewrites;
 };
 
@@ -33,6 +36,12 @@ function mock({ base = "/chart/v0" }) {
         at_lt: "2020-01-01",
       }),
       listEnergyConsumptions: listEnergyConsumptions("xxxx", {
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsAlertProducer: listWarningsStatistics({
+        type: "alert",
+        groupBy: "producer",
         at_gt: "2019-01-01",
         at_lt: "2020-01-01",
       }),

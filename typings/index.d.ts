@@ -8,6 +8,7 @@ declare class SDK {
   auth: string;
 
   vehicle: SDK.VehicleAPI;
+  warning: SDK.WarningAPI;
 }
 
 declare namespace SDK {
@@ -27,6 +28,14 @@ declare namespace SDK {
     listEnergyConsumptions(
       req: ListEnergyConsumptionsRequest
     ): Promise<ListEnergyConsumptionsResponse>;
+  }
+  export interface WarningAPI {
+    /**
+     * List warnings statistics
+     */
+    listWarningsStatistics(
+      req: ListWarningsStatisticsRequest
+    ): Promise<ListWarningsStatisticsResponse>;
   }
 
   type ListMileagesRequest = {
@@ -63,6 +72,24 @@ declare namespace SDK {
     body: Array<EnergyConsumptionRecord>;
   };
 
+  type ListWarningsStatisticsRequest = {
+    type: string;
+    groupBy: string;
+
+    query: {
+      filter: {
+        at: {
+          $gt: string;
+          $lt: string;
+        };
+      };
+    };
+  };
+
+  type ListWarningsStatisticsResponse = {
+    body: Array<WarningsStatistics>;
+  };
+
   type Err = {
     code: string;
     message: string;
@@ -76,5 +103,11 @@ declare namespace SDK {
   type EnergyConsumptionRecord = {
     at: date;
     mileage: number;
+  };
+
+  type WarningsStatistics = {
+    group: string;
+    name: string;
+    data: Array<undefined>;
   };
 }
