@@ -16,6 +16,14 @@ const generateRewrites = base => {
     "/listEnergyConsumptions";
   rewrites[`${base}/warnings/statistics/alert/producer*`] =
     "/listWarningsStatisticsAlertProducer";
+  rewrites[`${base}/warnings/statistics/alert/model*`] =
+    "/listWarningsStatisticsAlertModel";
+  rewrites[`${base}/warnings/statistics/alert/company*`] =
+    "/listWarningsStatisticsAlertCompany";
+  rewrites[`${base}/warnings/statistics/alert/line*`] =
+    "/listWarningsStatisticsAlertLine";
+  rewrites[`${base}/warnings/statistics/alert/type*`] =
+    "/listWarningsStatisticsAlertType";
   return rewrites;
 };
 
@@ -42,6 +50,30 @@ function mock({ base = "/chart/v0" }) {
       listWarningsStatisticsAlertProducer: listWarningsStatistics({
         type: "alert",
         groupBy: "producer",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsAlertModel: listWarningsStatistics({
+        type: "alert",
+        groupBy: "model",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsAlertCompany: listWarningsStatistics({
+        type: "alert",
+        groupBy: "company",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsAlertLine: listWarningsStatistics({
+        type: "alert",
+        groupBy: "line",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsAlertType: listWarningsStatistics({
+        type: "alert",
+        groupBy: "type",
         at_gt: "2019-01-01",
         at_lt: "2020-01-01",
       }),

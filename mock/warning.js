@@ -3,66 +3,98 @@ const moment = require("moment");
 const _ = require("lodash");
 
 const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
+  const days = moment(at_lt).diff(at_gt) / 1000 / 3600 / 24 + 1;
+  let groups = [];
   if (groupBy === "producer") {
-    return ["宇通", "申沃", "万象", "青年", "申龙"].map(producer => {
-      return {
-        group: producer,
-        name: producer,
-        data: [
-          {
-            name: "新能源车辆总数",
-            count: faker.random.number({
-              min: 100,
-              max: 400,
-              precision: 1,
-            }),
-          },
-          {
-            name: "三级报警/已忽略",
-            count: faker.random.number({
-              min: 10,
-              max: 40,
-              precision: 1,
-            }),
-          },
-          {
-            name: "三级报警/处理中",
-            count: faker.random.number({
-              min: 10,
-              max: 40,
-              precision: 1,
-            }),
-          },
-          {
-            name: "三级报警/已完成",
-            count: faker.random.number({
-              min: 10,
-              max: 40,
-              precision: 1,
-            }),
-          },
-          {
-            name: "二级报警",
-            count: faker.random.number({
-              min: 100,
-              max: 400,
-              precision: 1,
-            }),
-          },
-          {
-            name: "一级报警",
-            count: faker.random.number({
-              min: 100,
-              max: 400,
-              precision: 1,
-            }),
-          },
-        ],
-      };
-    });
-  } else {
-    return [];
+    groups = ["宇通", "申沃", "万象", "青年", "申龙"];
+  } else if (groupBy === "model") {
+    groups = ["Z0A", "Z1A", "Z2A", "Z3A", "Z4A"];
+  } else if (groupBy === "company") {
+    groups = [
+      "上南公交/一公司",
+      "上南公交/二公司",
+      "上南公交/三公司",
+      "杨高公交/一公司",
+      "杨高公交/二公司",
+      "杨高公交/三公司",
+      "金高公交/一公司",
+      "金高公交/二公司",
+      "金高公交/三公司",
+      "南汇公交/一公司",
+      "南汇公交/二公司",
+      "南汇公交/三公司",
+    ];
+  } else if (groupBy === "line") {
+    groups = _.range(1, 500)
+      .filter(() => Math.random() < 0.1)
+      .map(i => i.toString());
+  } else if (groupBy === "type") {
+    groups = ["整车", "电池", "电机", "充电系统", "气泵"];
   }
+  return groups.map(group => {
+    const alarmData = [
+      {
+        name: "三级报警/已忽略",
+        count: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "三级报警/处理中",
+        count: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "三级报警/已完成",
+        count: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "二级报警",
+        count: faker.random.number({
+          min: 100 * days,
+          max: 400 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "一级报警",
+        count: faker.random.number({
+          min: 100 * days,
+          max: 400 * days,
+          precision: 1,
+        }),
+      },
+    ];
+
+    let data = alarmData;
+    if (groupBy !== "type") {
+      data = [
+        {
+          name: "新能源车辆总数",
+          count: faker.random.number({
+            min: 100,
+            max: 400,
+            precision: 1,
+          }),
+        },
+      ].concat(alarmData);
+    }
+
+    return {
+      group: group,
+      name: group,
+      data: data,
+    };
+  });
 };
 
 const listWarningsStatistics = ({ type, at_gt, at_lt, groupBy }) => {
