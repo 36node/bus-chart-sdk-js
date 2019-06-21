@@ -9,13 +9,23 @@ const myRouter = (req, res, next) => {
   next();
 };
 
+const generateRewrites = base => {
+  const rewrites = {};
+  rewrites[`${base}/vehicles/*/mileages*`] = "/listMileages";
+  rewrites[`${base}/vehicles/*/energyconsumptions*`] =
+    "/listEnergyConsumptions";
+  rewrites[`${base}/warnings/statistics/alert/producer*`] =
+    "/listWarningsStatisticsAlertProducer";
+  return rewrites;
+};
+
 /**
  * mock chart service
  *
  * @param {object} opts 参数
  * @param {number} opts.base 参数 base url
  */
-function mock() {
+function mock({ base = "/chart/v0" }) {
   return {
     /**
      * mock data
@@ -40,12 +50,7 @@ function mock() {
     /**
      * rewrite
      */
-    rewrites: {
-      "/vehicles/*/mileages*": "/listMileages$2",
-      "/vehicles/*/energyconsumptions*": "/listEnergyConsumptions$2",
-      "/warnings/statistics/alert/producer*":
-        "/listWarningsStatisticsAlertProducer$1",
-    },
+    rewrites: generateRewrites(base),
 
     routers: [myRouter],
   };
