@@ -5,7 +5,9 @@ const { toJsonServer } = require("@36node/query-normalizr");
 
 const mock = require("../mock");
 
-const { db = {}, rewrites = {}, routers = [] } = mock();
+const { db = {}, rewrites = {}, routers = [] } = mock({
+  base: "/chart/v0",
+});
 
 const server = jsonServer.create();
 const dbRouter = jsonServer.router(db);
@@ -26,6 +28,6 @@ server.use((req, res, next) => {
 routers.forEach(router => server.use(router));
 server.use(dbRouter);
 
-server.listen(3000, () => {
+server.listen(3050, () => {
   console.log("JSON Server is running");
 });
