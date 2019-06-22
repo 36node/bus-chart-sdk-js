@@ -35,7 +35,7 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
     const alarmData = [
       {
         name: "三级报警/已忽略",
-        count: faker.random.number({
+        value: faker.random.number({
           min: 10 * days,
           max: 40 * days,
           precision: 1,
@@ -43,7 +43,7 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
       },
       {
         name: "三级报警/处理中",
-        count: faker.random.number({
+        value: faker.random.number({
           min: 10 * days,
           max: 40 * days,
           precision: 1,
@@ -51,7 +51,7 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
       },
       {
         name: "三级报警/已完成",
-        count: faker.random.number({
+        value: faker.random.number({
           min: 10 * days,
           max: 40 * days,
           precision: 1,
@@ -59,7 +59,7 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
       },
       {
         name: "二级报警",
-        count: faker.random.number({
+        value: faker.random.number({
           min: 100 * days,
           max: 400 * days,
           precision: 1,
@@ -67,7 +67,7 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
       },
       {
         name: "一级报警",
-        count: faker.random.number({
+        value: faker.random.number({
           min: 100 * days,
           max: 400 * days,
           precision: 1,
@@ -80,13 +80,33 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
       data = [
         {
           name: "新能源车辆总数",
-          count: faker.random.number({
+          value: faker.random.number({
             min: 100,
             max: 400,
             precision: 1,
           }),
         },
       ].concat(alarmData);
+    }
+
+    if (groupBy === "line") {
+      data = [{
+        name: "部门",
+        value: faker.random.arrayElement([
+          "上南公交/一公司",
+          "上南公交/二公司",
+          "上南公交/三公司",
+          "杨高公交/一公司",
+          "杨高公交/二公司",
+          "杨高公交/三公司",
+          "金高公交/一公司",
+          "金高公交/二公司",
+          "金高公交/三公司",
+          "南汇公交/一公司",
+          "南汇公交/二公司",
+          "南汇公交/三公司",
+        ]),
+      }].concat(data);
     }
 
     return {
