@@ -32,7 +32,7 @@ const alertStatistics = ({ at_gt, at_lt, groupKey }) => {
     groups = ["整车", "电池", "电机", "充电系统", "气泵"];
   }
   return groups.map(group => {
-    const alarmData = [
+    const warningData = [
       {
         name: "三级报警/已忽略",
         value: faker.random.number({
@@ -75,7 +75,7 @@ const alertStatistics = ({ at_gt, at_lt, groupKey }) => {
       },
     ];
 
-    let data = alarmData;
+    let data = warningData;
     if (groupKey !== "type") {
       data = [
         {
@@ -86,7 +86,7 @@ const alertStatistics = ({ at_gt, at_lt, groupKey }) => {
             precision: 1,
           }),
         },
-      ].concat(alarmData);
+      ].concat(warningData);
     }
 
     if (groupKey === "line") {
@@ -145,7 +145,7 @@ const batteryStatistics = ({ at_gt, at_lt, groupKey }) => {
       .map(i => i.toString());
   }
   return groups.map(group => {
-    const alarmData = [
+    const warningData = [
       {
         name: "SoC低于30%",
         value: faker.random.number({
@@ -180,7 +180,7 @@ const batteryStatistics = ({ at_gt, at_lt, groupKey }) => {
       },
     ];
 
-    let data = alarmData;
+    let data = warningData;
     if (groupKey !== "type") {
       data = [
         {
@@ -191,7 +191,7 @@ const batteryStatistics = ({ at_gt, at_lt, groupKey }) => {
             precision: 1,
           }),
         },
-      ].concat(alarmData);
+      ].concat(warningData);
     }
 
     if (groupKey === "line") {
@@ -252,7 +252,7 @@ const insulationStatistics = ({ at_gt, at_lt, groupKey }) => {
       .map(i => i.toString());
   }
   return groups.map(group => {
-    const alarmData = [
+    const warningData = [
       {
         name: "绝缘预警(500欧-1兆欧)",
         value: faker.random.number({
@@ -279,7 +279,7 @@ const insulationStatistics = ({ at_gt, at_lt, groupKey }) => {
       },
     ];
 
-    let data = alarmData;
+    let data = warningData;
     if (groupKey !== "type") {
       data = [
         {
@@ -290,7 +290,114 @@ const insulationStatistics = ({ at_gt, at_lt, groupKey }) => {
             precision: 1,
           }),
         },
-      ].concat(alarmData);
+      ].concat(warningData);
+    }
+
+    if (groupKey === "line") {
+      data = [
+        {
+          name: "部门",
+          value: faker.random.arrayElement([
+            "上南公交/一公司",
+            "上南公交/二公司",
+            "上南公交/三公司",
+            "杨高公交/一公司",
+            "杨高公交/二公司",
+            "杨高公交/三公司",
+            "金高公交/一公司",
+            "金高公交/二公司",
+            "金高公交/三公司",
+            "南汇公交/一公司",
+            "南汇公交/二公司",
+            "南汇公交/三公司",
+          ]),
+        },
+      ].concat(data);
+    }
+
+    return {
+      group: group,
+      name: group,
+      data: data,
+    };
+  });
+};
+
+const tireStatistics = ({ at_gt, at_lt, groupKey }) => {
+  const days = moment(at_lt).diff(at_gt) / 1000 / 3600 / 24 + 1;
+  let groups = [];
+  if (groupKey === "producer") {
+    groups = ["宇通", "申沃", "万象", "青年", "申龙"];
+  } else if (groupKey === "model") {
+    groups = ["Z0A", "Z1A", "Z2A", "Z3A", "Z4A"];
+  } else if (groupKey === "company") {
+    groups = [
+      "上南公交/一公司",
+      "上南公交/二公司",
+      "上南公交/三公司",
+      "杨高公交/一公司",
+      "杨高公交/二公司",
+      "杨高公交/三公司",
+      "金高公交/一公司",
+      "金高公交/二公司",
+      "金高公交/三公司",
+      "南汇公交/一公司",
+      "南汇公交/二公司",
+      "南汇公交/三公司",
+    ];
+  } else if (groupKey === "line") {
+    groups = _.range(1, 500)
+      .filter(() => Math.random() < 0.1)
+      .map(i => i.toString());
+  }
+  return groups.map(group => {
+    const warningData = [
+      {
+        name: "胎压过低",
+        value: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "胎压过高",
+        value: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "胎温过高",
+        value: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "传感器故障",
+        value: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+    ];
+
+    let data = warningData;
+    if (groupKey !== "type") {
+      data = [
+        {
+          name: "新能源车辆总数",
+          value: faker.random.number({
+            min: 100,
+            max: 400,
+            precision: 1,
+          }),
+        },
+      ].concat(warningData);
     }
 
     if (groupKey === "line") {
@@ -338,6 +445,12 @@ const listWarningsStatistics = ({ type, at_gt, at_lt, groupKey }) => {
     });
   } else if (type === "insulation") {
     return insulationStatistics({
+      at_gt,
+      at_lt,
+      groupKey,
+    });
+  } else if (type === "tire") {
+    return tireStatistics({
       at_gt,
       at_lt,
       groupKey,
