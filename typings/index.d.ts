@@ -74,7 +74,7 @@ declare namespace SDK {
 
   type ListWarningsStatisticsRequest = {
     type: string;
-    groupBy: string;
+    groupKey: string;
 
     query: {
       filter: {

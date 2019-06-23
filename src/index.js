@@ -85,13 +85,13 @@ export default class SDK {
      * @returns {Promise<ListWarningsStatisticsResponse>} An array of energy consumption records
      */
     listWarningsStatistics: (req = {}) => {
-      const { type, groupBy, query, headers } = req;
+      const { type, groupKey, query, headers } = req;
 
       if (!type) throw new Error("type is required for listWarningsStatistics");
-      if (!groupBy)
-        throw new Error("groupBy is required for listWarningsStatistics");
+      if (!groupKey)
+        throw new Error("groupKey is required for listWarningsStatistics");
       if (!query) throw new Error("query is required for warning");
-      return fetch(`${this.base}/warnings/statistics/${type}/${groupBy}`, {
+      return fetch(`${this.base}/warnings/statistics/${type}/${groupKey}`, {
         method: "get",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },

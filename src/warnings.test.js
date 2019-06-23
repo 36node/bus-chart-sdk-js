@@ -12,19 +12,19 @@ describe("## SDK warnings statistics", () => {
     expect(listMileages).toThrow("type is required for listWarningsStatistics");
   });
 
-  it("must provide groupBy", () => {
+  it("must provide groupKey", () => {
     const listMileages = () =>
       sdk.warning.listWarningsStatistics({ type: "alert" });
 
     expect(listMileages).toThrow(
-      "groupBy is required for listWarningsStatistics"
+      "groupKey is required for listWarningsStatistics"
     );
   });
 
   it("should list records", async () => {
     const result = await sdk.warning.listWarningsStatistics({
       type: "alert",
-      groupBy: "producer",
+      groupKey: "producer",
       query: {
         filter: {
           at: {

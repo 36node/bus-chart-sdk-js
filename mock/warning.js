@@ -2,14 +2,14 @@ const faker = require("faker");
 const moment = require("moment");
 const _ = require("lodash");
 
-const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
+const alertStatistics = ({ at_gt, at_lt, groupKey }) => {
   const days = moment(at_lt).diff(at_gt) / 1000 / 3600 / 24 + 1;
   let groups = [];
-  if (groupBy === "producer") {
+  if (groupKey === "producer") {
     groups = ["宇通", "申沃", "万象", "青年", "申龙"];
-  } else if (groupBy === "model") {
+  } else if (groupKey === "model") {
     groups = ["Z0A", "Z1A", "Z2A", "Z3A", "Z4A"];
-  } else if (groupBy === "company") {
+  } else if (groupKey === "company") {
     groups = [
       "上南公交/一公司",
       "上南公交/二公司",
@@ -24,11 +24,11 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
       "南汇公交/二公司",
       "南汇公交/三公司",
     ];
-  } else if (groupBy === "line") {
+  } else if (groupKey === "line") {
     groups = _.range(1, 500)
       .filter(() => Math.random() < 0.1)
       .map(i => i.toString());
-  } else if (groupBy === "type") {
+  } else if (groupKey === "type") {
     groups = ["整车", "电池", "电机", "充电系统", "气泵"];
   }
   return groups.map(group => {
@@ -76,7 +76,7 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
     ];
 
     let data = alarmData;
-    if (groupBy !== "type") {
+    if (groupKey !== "type") {
       data = [
         {
           name: "新能源车辆总数",
@@ -89,7 +89,7 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
       ].concat(alarmData);
     }
 
-    if (groupBy === "line") {
+    if (groupKey === "line") {
       data = [{
         name: "部门",
         value: faker.random.arrayElement([
@@ -117,12 +117,12 @@ const alertStatistics = ({ at_gt, at_lt, groupBy }) => {
   });
 };
 
-const listWarningsStatistics = ({ type, at_gt, at_lt, groupBy }) => {
+const listWarningsStatistics = ({ type, at_gt, at_lt, groupKey }) => {
   if (type === "alert") {
     return alertStatistics({
       at_gt,
       at_lt,
-      groupBy,
+      groupKey,
     });
   } else {
     return [];
