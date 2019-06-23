@@ -24,6 +24,14 @@ const generateRewrites = base => {
     "/listWarningsStatisticsAlertLine";
   rewrites[`${base}/warnings/statistics/alert/type*`] =
     "/listWarningsStatisticsAlertType";
+  rewrites[`${base}/warnings/statistics/battery/producer*`] =
+    "/listWarningsStatisticsBatteryProducer";
+  rewrites[`${base}/warnings/statistics/battery/model*`] =
+    "/listWarningsStatisticsBatteryModel";
+  rewrites[`${base}/warnings/statistics/battery/company*`] =
+    "/listWarningsStatisticsBatteryCompany";
+  rewrites[`${base}/warnings/statistics/battery/line*`] =
+    "/listWarningsStatisticsBatteryLine";
   return rewrites;
 };
 
@@ -74,6 +82,30 @@ function mock({ base = "/chart/v0" }) {
       listWarningsStatisticsAlertType: listWarningsStatistics({
         type: "alert",
         groupKey: "type",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsBatteryProducer: listWarningsStatistics({
+        type: "battery",
+        groupKey: "producer",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsBatteryModel: listWarningsStatistics({
+        type: "battery",
+        groupKey: "model",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsBatteryCompany: listWarningsStatistics({
+        type: "battery",
+        groupKey: "company",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsBatteryLine: listWarningsStatistics({
+        type: "battery",
+        groupKey: "line",
         at_gt: "2019-01-01",
         at_lt: "2020-01-01",
       }),
