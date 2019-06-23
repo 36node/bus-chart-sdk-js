@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/36node/bus-chart-sdk-js/compare/v0.9.0...v0.10.0) (2019-06-23)
+
+
+### Features
+
+* add report insulation warning data ([20bffad](https://github.com/36node/bus-chart-sdk-js/commit/20bffad))
+* add report tire warning data ([8e77a31](https://github.com/36node/bus-chart-sdk-js/commit/8e77a31))
+
+
+
 ## [0.9.0](https://github.com/36node/bus-chart-sdk-js/compare/v0.8.1...v0.9.0) (2019-06-23)
 
 
