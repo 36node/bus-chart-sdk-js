@@ -90,23 +90,25 @@ const alertStatistics = ({ at_gt, at_lt, groupKey }) => {
     }
 
     if (groupKey === "line") {
-      data = [{
-        name: "部门",
-        value: faker.random.arrayElement([
-          "上南公交/一公司",
-          "上南公交/二公司",
-          "上南公交/三公司",
-          "杨高公交/一公司",
-          "杨高公交/二公司",
-          "杨高公交/三公司",
-          "金高公交/一公司",
-          "金高公交/二公司",
-          "金高公交/三公司",
-          "南汇公交/一公司",
-          "南汇公交/二公司",
-          "南汇公交/三公司",
-        ]),
-      }].concat(data);
+      data = [
+        {
+          name: "部门",
+          value: faker.random.arrayElement([
+            "上南公交/一公司",
+            "上南公交/二公司",
+            "上南公交/三公司",
+            "杨高公交/一公司",
+            "杨高公交/二公司",
+            "杨高公交/三公司",
+            "金高公交/一公司",
+            "金高公交/二公司",
+            "金高公交/三公司",
+            "南汇公交/一公司",
+            "南汇公交/二公司",
+            "南汇公交/三公司",
+          ]),
+        },
+      ].concat(data);
     }
 
     return {
@@ -430,6 +432,111 @@ const tireStatistics = ({ at_gt, at_lt, groupKey }) => {
   });
 };
 
+const pileStatistics = ({ at_gt, at_lt, groupKey }) => {
+  const days = moment(at_lt).diff(at_gt) / 1000 / 3600 / 24 + 1;
+  let groups = [];
+  if (groupKey === "station") {
+    groups = ["杨高充电站", "上南充电站", "金高充电站", "南汇充电站"];
+  } else if (groupKey === "company") {
+    groups = [
+      "上南公交/一公司",
+      "上南公交/二公司",
+      "上南公交/三公司",
+      "杨高公交/一公司",
+      "杨高公交/二公司",
+      "杨高公交/三公司",
+      "金高公交/一公司",
+      "金高公交/二公司",
+      "金高公交/三公司",
+      "南汇公交/一公司",
+      "南汇公交/二公司",
+      "南汇公交/三公司",
+    ];
+  } else if (groupKey === "line") {
+    groups = _.range(1, 500)
+      .filter(() => Math.random() < 0.1)
+      .map(i => i.toString());
+  }
+  return groups.map(group => {
+    const warningData = [
+      {
+        name: "充电量",
+        value: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "谷时段充电量",
+        value: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "平时段充电量",
+        value: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+      {
+        name: "峰时段充电量",
+        value: faker.random.number({
+          min: 10 * days,
+          max: 40 * days,
+          precision: 1,
+        }),
+      },
+    ];
+
+    let data = warningData;
+    if (groupKey === "station") {
+      data = [
+        {
+          name: "充电桩总数",
+          value: faker.random.number({
+            min: 100,
+            max: 400,
+            precision: 1,
+          }),
+        },
+      ].concat(warningData);
+    }
+
+    if (groupKey === "line") {
+      data = [
+        {
+          name: "部门",
+          value: faker.random.arrayElement([
+            "上南公交/一公司",
+            "上南公交/二公司",
+            "上南公交/三公司",
+            "杨高公交/一公司",
+            "杨高公交/二公司",
+            "杨高公交/三公司",
+            "金高公交/一公司",
+            "金高公交/二公司",
+            "金高公交/三公司",
+            "南汇公交/一公司",
+            "南汇公交/二公司",
+            "南汇公交/三公司",
+          ]),
+        },
+      ].concat(data);
+    }
+
+    return {
+      group: group,
+      name: group,
+      data: data,
+    };
+  });
+};
+
 const listWarningsStatistics = ({ type, at_gt, at_lt, groupKey }) => {
   if (type === "alert") {
     return alertStatistics({
@@ -451,6 +558,12 @@ const listWarningsStatistics = ({ type, at_gt, at_lt, groupKey }) => {
     });
   } else if (type === "tire") {
     return tireStatistics({
+      at_gt,
+      at_lt,
+      groupKey,
+    });
+  } else if (type === "pile") {
+    return pileStatistics({
       at_gt,
       at_lt,
       groupKey,

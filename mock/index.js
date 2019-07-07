@@ -48,6 +48,12 @@ const generateRewrites = base => {
     "/listWarningsStatisticsTireCompany";
   rewrites[`${base}/warnings/statistics/tire/line*`] =
     "/listWarningsStatisticsTireLine";
+  rewrites[`${base}/warnings/statistics/pile/station*`] =
+    "/listWarningsStatisticsPileStation";
+  rewrites[`${base}/warnings/statistics/pile/line*`] =
+    "/listWarningsStatisticsPileLine";
+  rewrites[`${base}/warnings/statistics/pile/company*`] =
+    "/listWarningsStatisticsPileCompany";
   return rewrites;
 };
 
@@ -170,6 +176,24 @@ function mock({ base = "/chart/v0" }) {
       listWarningsStatisticsTireLine: listWarningsStatistics({
         type: "tire",
         groupKey: "line",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsPileStation: listWarningsStatistics({
+        type: "pile",
+        groupKey: "station",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsPileLine: listWarningsStatistics({
+        type: "pile",
+        groupKey: "line",
+        at_gt: "2019-01-01",
+        at_lt: "2020-01-01",
+      }),
+      listWarningsStatisticsPileCompany: listWarningsStatistics({
+        type: "pile",
+        groupKey: "company",
         at_gt: "2019-01-01",
         at_lt: "2020-01-01",
       }),
