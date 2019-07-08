@@ -3,14 +3,22 @@ const {
   listEnergyConsumptions,
   genChartVehicles,
   defaultVehicles,
-} = require("./vihecle");
+} = require("./vehicle");
 const { listWarningsStatistics } = require("./warning");
+const _ = require("lodash");
 
 const myRouter = (req, res, next) => {
   /** example */
   // if (req.path === "/sessions" && req.method === "POST") {
   //   req.body.token = TOKEN;
   // }
+
+  // FIXME: 临时处理
+  if (req.path !== "/chartVehicles") {
+    delete req.query.at_gte;
+    delete req.query.at_lte;
+  }
+
   next();
 };
 
@@ -59,8 +67,22 @@ const generateRewrites = base => {
     "/listWarningsStatisticsPileLine";
   rewrites[`${base}/warnings/statistics/pile/company*`] =
     "/listWarningsStatisticsPileCompany";
+
+  rewrites[`${base}/chart/vehicles*`] = "/chartVehicles$1";
+
   return rewrites;
 };
+
+// const test = listWarningsStatistics({
+//   type: "battery",
+//   groupKey: "producer",
+//   at_gt: "2019-01-01",
+//   at_lt: "2020-01-01",
+// });
+
+// console.log(JSON.stringify(test, null, 2));
+
+// process.exit(0);
 
 /**
  * mock chart service
@@ -208,18 +230,19 @@ function mock({ base = "/chart/v0", vehicles = defaultVehicles }) {
     /**
      * rewrite
      */
-    rewrites: {
-      ...generateRewrites(base),
-      "/chart/vehicles*": "/chartVehicles$1",
-    },
+    rewrites: generateRewrites(base),
 
     routers: [myRouter],
 
     aggregations: {
       "/chartVehicles": {
-        vehicles: (records = []) => records.length,
+        vehicles: (records = []) => _.uniqBy(records, "vin").length,
         mileage: "sum",
         consumption: "sum",
+        mileageAvg: (records = []) =>
+          _.sumBy(records, "mileage") / records.length / 100,
+        consumptionAvg: (records = []) =>
+          _.sumBy(records, "consumption") / (_.sumBy(records, "mileage") / 100),
       },
     },
   };

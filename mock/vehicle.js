@@ -70,6 +70,7 @@ const genChartVehicles = (vehicles = []) => {
         ns: vehicle.ns,
         line: vehicle.line,
         no: vehicle.no,
+        producer: vehicle.producer,
         modelBrief: vehicle.modelBrief,
         model: vehicle.model,
         mileage: lastMilesage,

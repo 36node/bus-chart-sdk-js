@@ -109,7 +109,7 @@ export default class SDK {
         throw new Error("groupKey is required for listWarningsStatistics");
       if (!query) throw new Error("query is required for warning");
 
-      return fetch(`${this.base}/warnings/statistics/${type}/{groupKey}`, {
+      return fetch(`${this.base}/warnings/statistics/${type}/${groupKey}`, {
         method: "get",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
