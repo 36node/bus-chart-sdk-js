@@ -1,7 +1,7 @@
 import SDK from "./index";
 
 const sdk = new SDK({
-  base: "http://localhost:3050/chart/v0",
+  base: "http://localhost:3000/chart/v0",
   token: "",
 });
 
@@ -21,7 +21,7 @@ describe("## SDK warnings statistics", () => {
     );
   });
 
-  it("should list records", async () => {
+  xit("should list records", async () => {
     const result = await sdk.warning.listWarningsStatistics({
       type: "alert",
       groupKey: "producer",

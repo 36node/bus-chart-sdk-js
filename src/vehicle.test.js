@@ -1,7 +1,7 @@
 import SDK from "./index";
 
 const sdk = new SDK({
-  base: "http://localhost:3050/chart/v0",
+  base: "http://localhost:3000/chart/v0",
   token: "",
 });
 
