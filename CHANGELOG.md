@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.0](https://github.com/36node/bus-chart-sdk-js/compare/v0.10.1...v0.11.0) (2019-07-08)
+
+
+### Bug Fixes
+
+* test errors ([df0781d](https://github.com/36node/bus-chart-sdk-js/commit/df0781d))
+
+
+### Features
+
+* add /chart/vehicles api ([221b5e0](https://github.com/36node/bus-chart-sdk-js/commit/221b5e0))
+* add /chart/vehicles api ([6375748](https://github.com/36node/bus-chart-sdk-js/commit/6375748))
+
+
+
 ### [0.10.1](https://github.com/36node/bus-chart-sdk-js/compare/v0.10.0...v0.10.1) (2019-07-07)
 
 
