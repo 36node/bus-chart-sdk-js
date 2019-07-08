@@ -1,4 +1,9 @@
-const { listMileages, listEnergyConsumptions } = require("./vihecle");
+const {
+  listMileages,
+  listEnergyConsumptions,
+  genChartVehicles,
+  defaultVehicles,
+} = require("./vihecle");
 const { listWarningsStatistics } = require("./warning");
 
 const myRouter = (req, res, next) => {
@@ -63,12 +68,13 @@ const generateRewrites = base => {
  * @param {object} opts 参数
  * @param {number} opts.base 参数 base url
  */
-function mock({ base = "/chart/v0" }) {
+function mock({ base = "/chart/v0", vehicles = defaultVehicles }) {
   return {
     /**
      * mock data
      */
     db: {
+      chartVehicles: genChartVehicles(vehicles),
       listMileages: listMileages("xxxx", {
         at_gt: "2019-01-01",
         at_lt: "2020-01-01",
@@ -202,9 +208,20 @@ function mock({ base = "/chart/v0" }) {
     /**
      * rewrite
      */
-    rewrites: generateRewrites(base),
+    rewrites: {
+      ...generateRewrites(base),
+      "/chart/vehicles*": "/chartVehicles$1",
+    },
 
     routers: [myRouter],
+
+    aggregations: {
+      "/chartVehicles": {
+        vehicles: (records = []) => records.length,
+        mileage: "sum",
+        consumption: "sum",
+      },
+    },
   };
 }
 
