@@ -27,7 +27,7 @@
     "gen": "swagen sdk ../bus-chart/openapi.yml",
     "lint": "sketch lint src",
     "release": "standard-version",
-    "start": "bin/json-server.js",
+    "start": "bin/mock-server.js",
     "test:int": "sketch test --env=node"
   },
   "commitlint": {
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@36node/fetch": "^0.6.0",
+    "@36node/mock-server": "^0.0.3",
     "@36node/query-normalizr": "^0.4.3",
     "commander": "^2.19.0"
   },
