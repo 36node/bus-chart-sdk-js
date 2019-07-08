@@ -230,7 +230,10 @@ function mock({ base = "/chart/v0", vehicles = defaultVehicles }) {
     /**
      * rewrite
      */
-    rewrites: generateRewrites(base),
+    rewrites: {
+      ...generateRewrites(base),
+      "/chart/vehicles*": "/chartVehicles$1",
+    },
 
     routers: [myRouter],
 
