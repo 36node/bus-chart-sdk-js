@@ -6,6 +6,7 @@ const {
 } = require("./vehicle");
 const { listWarningsStatistics } = require("./warning");
 const _ = require("lodash");
+const genChartAlerts = require("./alerts");
 
 const myRouter = (req, res, next) => {
   /** example */
@@ -14,7 +15,7 @@ const myRouter = (req, res, next) => {
   // }
 
   // FIXME: 临时处理
-  if (req.path !== "/chartVehicles") {
+  if (req.path !== "/vehicles") {
     delete req.query.at_gte;
     delete req.query.at_lte;
   }
@@ -68,21 +69,11 @@ const generateRewrites = base => {
   rewrites[`${base}/warnings/statistics/pile/company*`] =
     "/listWarningsStatisticsPileCompany";
 
-  rewrites[`${base}/chart/vehicles*`] = "/chartVehicles$1";
+  rewrites[`${base}/vehicles*`] = "/vehicles$1";
+  rewrites[`${base}/alerts*`] = "/alerts$1";
 
   return rewrites;
 };
-
-// const test = listWarningsStatistics({
-//   type: "battery",
-//   groupKey: "producer",
-//   at_gt: "2019-01-01",
-//   at_lt: "2020-01-01",
-// });
-
-// console.log(JSON.stringify(test, null, 2));
-
-// process.exit(0);
 
 /**
  * mock chart service
@@ -90,13 +81,18 @@ const generateRewrites = base => {
  * @param {object} opts 参数
  * @param {number} opts.base 参数 base url
  */
-function mock({ base = "/chart/v0", vehicles = defaultVehicles }) {
+function mock({
+  base = "/chart/v0",
+  vehicles = defaultVehicles,
+  alertsCount = 1000,
+}) {
   return {
     /**
      * mock data
      */
     db: {
-      chartVehicles: genChartVehicles(vehicles),
+      vehicles: genChartVehicles(vehicles),
+      alerts: genChartAlerts({ vehicles, count: alertsCount }),
       listMileages: listMileages("xxxx", {
         at_gt: "2019-01-01",
         at_lt: "2020-01-01",
@@ -230,15 +226,12 @@ function mock({ base = "/chart/v0", vehicles = defaultVehicles }) {
     /**
      * rewrite
      */
-    rewrites: {
-      ...generateRewrites(base),
-      "/chart/vehicles*": "/chartVehicles$1",
-    },
+    rewrites: generateRewrites(base),
 
     routers: [myRouter],
 
     aggregations: {
-      "/chartVehicles": {
+      "/vehicles": {
         vehicles: (records = []) => _.uniqBy(records, "vin").length,
         mileage: "sum",
         consumption: "sum",
@@ -246,6 +239,22 @@ function mock({ base = "/chart/v0", vehicles = defaultVehicles }) {
           _.sumBy(records, "mileage") / records.length / 100,
         consumptionAvg: (records = []) =>
           _.sumBy(records, "consumption") / (_.sumBy(records, "mileage") / 100),
+      },
+      "/alerts": {
+        count: (records = []) => _.sumBy(records, "count"),
+        times: (records = []) => records.length,
+        level1Times: (records = []) =>
+          records.filter(r => r.level === 1).length,
+        level2Times: (records = []) =>
+          records.filter(r => r.level === 2).length,
+        level3Times: (records = []) =>
+          records.filter(r => r.level === 3).length,
+        level1Count: (records = []) =>
+          _.sumBy(records.filter(r => r.level === 1), "count"),
+        level2Count: (records = []) =>
+          _.sumBy(records.filter(r => r.level === 2), "count"),
+        level3Count: (records = []) =>
+          _.sumBy(records.filter(r => r.level === 3), "count"),
       },
     },
   };

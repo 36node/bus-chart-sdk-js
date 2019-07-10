@@ -9,6 +9,7 @@ declare class SDK {
 
   vehicle: SDK.VehicleAPI;
   warning: SDK.WarningAPI;
+  alert: SDK.AlertAPI;
 }
 
 declare namespace SDK {
@@ -41,6 +42,12 @@ declare namespace SDK {
       req: ListWarningsStatisticsRequest
     ): Promise<ListWarningsStatisticsResponse>;
   }
+  export interface AlertAPI {
+    /**
+     * List alerts chart records
+     */
+    listChartAlerts(req: ListChartAlertsRequest): Promise<ListChartAlertsResponse>;
+  }
 
   type ListMileagesRequest = {
     vehicleId: string;
@@ -56,7 +63,7 @@ declare namespace SDK {
   };
 
   type ListMileagesResponse = {
-    body: Array<MileageRecord>;
+    body: [MileageRecord];
   };
 
   type ListEnergyConsumptionsRequest = {
@@ -73,7 +80,7 @@ declare namespace SDK {
   };
 
   type ListEnergyConsumptionsResponse = {
-    body: Array<EnergyConsumptionRecord>;
+    body: [EnergyConsumptionRecord];
   };
 
   type ListChartVehiclesRequest = {
@@ -100,7 +107,7 @@ declare namespace SDK {
   };
 
   type ListChartVehiclesResponse = {
-    body: Array<Vehicle>;
+    body: [Vehicle];
   };
 
   type ListWarningsStatisticsRequest = {
@@ -118,14 +125,83 @@ declare namespace SDK {
   };
 
   type ListWarningsStatisticsResponse = {
-    body: Array<WarningsStatistics>;
+    body: [WarningsStatistics];
+  };
+
+  type ListChartAlertsRequest = {
+    query: {
+      limit?: string;
+      offset?: string;
+      select?: string;
+      group?: string;
+
+      filter: {
+        vehicle?: string;
+        ns: {
+          $regex?: string;
+        };
+        line?: string;
+        vehicleProducer?: string;
+        vehicleModelBrief?: string;
+        vehicleModel?: string;
+        vehicleNo: {
+          $regex?: string;
+        };
+        startedAt: {
+          $gt?: string;
+          $lt?: string;
+        };
+        lastAt: {
+          $gt?: string;
+          $lt?: string;
+        };
+        state?: string;
+        vehicleYearsFromPlate: {
+          $gt?: number;
+          $lt?: number;
+        };
+        vehicleMileage: {
+          $gt?: number;
+          $lt?: number;
+        };
+      };
+    };
+  };
+
+  type ListChartAlertsResponse = {
+    body: [Alert];
   };
 
   type Err = {
     code: string;
     message: string;
   };
-
+  type Alert = {
+    id: string;
+    startedAt: string;
+    lastAt: string;
+    vehicle: string;
+    ns: string;
+    line: string;
+    code: string;
+    level: number;
+    name: string;
+    plate: string;
+    vehicleModel: string;
+    vehicleModelBrief: string;
+    vehicleNo: string;
+    vehicleMileage: Number;
+    vehicleYearsFromPlate: Number;
+    state: "OPEN" | "CLOSE";
+    count: number;
+    level1Count: number;
+    level2Count: number;
+    level3Count: number;
+    times: number;
+    level1Times: number;
+    level2Times: number;
+    level3Times: number;
+  };
   type Vehicle = {
     at: date;
     vin: string;
@@ -133,24 +209,22 @@ declare namespace SDK {
     line: string;
     producer: string;
     modelBrief: string;
+    no: string;
     vechiles: number;
     mileage: number;
     consumption: number;
   };
-
   type MileageRecord = {
     at: date;
     mileage: number;
   };
-
   type EnergyConsumptionRecord = {
     at: date;
     mileage: number;
   };
-
   type WarningsStatistics = {
     group: string;
     name: string;
-    data: Array<undefined>;
+    data: [undefined];
   };
 }

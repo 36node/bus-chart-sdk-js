@@ -25,7 +25,7 @@ export default class SDK {
    *
    * @param {Object} opt
    * @param {string} opt.base  base url
-   * @param {string} opt.token token fro authorization
+   * @param {string} opt.token token for authorization
    */
   constructor(opt = {}) {
     this.base = opt.base || "";
@@ -84,7 +84,7 @@ export default class SDK {
 
       if (!query) throw new Error("query is required for vehicle");
 
-      return fetch(`${this.base}/chart/vehicles`, {
+      return fetch(`${this.base}/vehicles`, {
         method: "get",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
@@ -110,6 +110,26 @@ export default class SDK {
       if (!query) throw new Error("query is required for warning");
 
       return fetch(`${this.base}/warnings/statistics/${type}/${groupKey}`, {
+        method: "get",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
+  /**
+   * alert's methods
+   */
+  alert = {
+    /**
+     * List alerts chart records
+     *
+     * @param {ListChartAlertsRequest} req listChartAlerts request
+     * @returns {Promise<ListChartAlertsResponse>} An array of chart alert records
+     */
+    listChartAlerts: (req = {}) => {
+      const { query, headers } = req;
+
+      return fetch(`${this.base}/alerts`, {
         method: "get",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },

@@ -1,0 +1,581 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Swagger Bus Chart
+  license:
+    name: MIT
+servers:
+  - url: https://api.36node.com{basePath}
+    description: The production API server
+    variables:
+      basePath:
+        default: /chart/v0
+paths:
+  /vehicles/{vehicleId}/mileages:
+    get:
+      summary: List mileage records of an vehicle
+      operationId: listMileages
+      tags:
+        - vehicle
+      deprecated: true
+      parameters:
+        - name: vehicleId
+          in: path
+          required: true
+          description: The id of vechile
+          schema:
+            type: string
+        - name: at_gt
+          in: query
+          description: 返回采集时间大于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: at_lt
+          in: query
+          description: 返回采集时间小宇某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: A paged array of mileage records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MileageRecord"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /vehicles/{vehicleId}/energyconsumptions:
+    get:
+      summary: List energy consumption records of an vehicle
+      operationId: listEnergyConsumptions
+      tags:
+        - vehicle
+      deprecated: true
+      parameters:
+        - name: vehicleId
+          in: path
+          required: true
+          description: The id of vechile
+          schema:
+            type: string
+        - name: at_gt
+          in: query
+          description: 返回采集时间大于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: at_lt
+          in: query
+          description: 返回采集时间小于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: A paged array of energy consumption records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EnergyConsumptionRecord"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /warnings/statistics/{type}/{groupKey}:
+    get:
+      summary: List warnings statistics
+      operationId: listWarningsStatistics
+      tags:
+        - warning
+      deprecated: true
+      parameters:
+        - name: type
+          in: path
+          required: true
+          description: The type of warnings
+          schema:
+            type: string
+        - name: groupKey
+          in: path
+          required: true
+          description: The group key of warnings
+          schema:
+            type: string
+        - name: at_gt
+          in: query
+          description: 返回采集时间大于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: at_lt
+          in: query
+          description: 返回采集时间小于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: An array of warning statistics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WarningsStatistics"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+  
+
+  /vehicles:
+    get:
+      summary: List vehicles chart records
+      operationId: listChartVehicles
+      tags:
+        - vehicle
+      parameters:
+        - name: _limit
+          in: query
+          required: false
+          description: limit records length
+          schema:
+            type: string
+        - name: _offset
+          in: query
+          required: false
+          description: records offset
+          schema:
+            type: string
+        - name: _group
+          in: query
+          required: false
+          description: Group by
+          schema:
+            type: string
+        - name: _select
+          in: query
+          required: false
+          description: select
+          schema:
+            type: string
+        - name: vin
+          in: query
+          required: false
+          description: Filter by vin
+          schema:
+            type: string
+        - name: ns_like
+          in: query
+          required: false
+          description: Filter by ns
+          schema:
+            type: string
+        - name: line
+          in: query
+          required: false
+          description: Filter by line
+          schema:
+            type: string
+        - name: producer
+          in: query
+          required: false
+          description: Filter by producer
+          schema:
+            type: string
+        - name: modelBrief
+          in: query
+          required: false
+          description: Filter by modelBrief
+          schema:
+            type: string
+        - name: at_gt
+          in: query
+          description: 返回采集时间大于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: at_lt
+          in: query
+          description: 返回采集时间小于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: An array of chart vehicle records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Vehicle"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /alerts:
+    get:
+      summary: List alerts chart records
+      operationId: listChartAlerts
+      tags:
+        - alert
+      parameters:
+        - name: _limit
+          in: query
+          required: false
+          description: limit records length
+          schema:
+            type: string
+        - name: _offset
+          in: query
+          required: false
+          description: records offset
+          schema:
+            type: string
+        - name: _group
+          in: query
+          required: false
+          description: Group by
+          schema:
+            type: string
+        - name: _select
+          in: query
+          required: false
+          description: select
+          schema:
+            type: string
+        - name: vehicle
+          in: query
+          required: false
+          description: Filter by vehicle
+          schema:
+            type: string
+        - name: ns_like
+          in: query
+          required: false
+          description: Filter by ns
+          schema:
+            type: string
+        - name: line
+          in: query
+          required: false
+          description: Filter by line
+          schema:
+            type: string
+        - name: vehicleProducer
+          in: query
+          required: false
+          description: Filter by producer
+          schema:
+            type: string
+        - name: vehicleModelBrief
+          in: query
+          required: false
+          description: Filter by modelBrief
+          schema:
+            type: string
+        - name: vehicleModel
+          in: query
+          required: false
+          description: Filter by model
+          schema:
+            type: string
+        - name: vehicleNo_like
+          in: query
+          description: 车辆自编号模糊查询
+          required: false
+          schema:
+            type: string
+        - name: startedAt_gt
+          in: query
+          description: 按大于警报开始时间查询 格式ISOString 或者 时间戳（秒）
+          required: false
+          schema:
+            type: string
+        - name: startedAt_lt
+          in: query
+          description: 按小于警报开始时间查询 格式ISOString 或者 时间戳（秒）
+          required: false
+          schema:
+            type: string
+        - name: lastAt_gt
+          in: query
+          description: 按大于最后警报时间查询 格式ISOString 或者 时间戳（秒）
+          required: false
+          schema:
+            type: string
+        - name: lastAt_lt
+          in: query
+          description: 按小于最后警报时间查询 格式ISOString 或者 时间戳（秒）
+          required: false
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: 根据状态查询报警 ['OPEN', 'CLOSE'] 开启 关闭
+          required: false
+          schema:
+            type: string
+        - name: vehicleYearsFromPlate_gt
+          description: 报废年限大于
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: vehicleYearsFromPlate_lt
+          description: 报废年限小于
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: vehicleMileage_gt
+          in: query
+          description: 车辆历程大于
+          required: false
+          schema:
+            type: number
+        - name: vehicleMileage_lt
+          in: query
+          description: 车辆历程小于
+          required: false
+          schema:
+            type: number
+      responses:
+        "200":
+          description: An array of chart alert records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+
+security:
+  - bearerAuth: []
+
+components:
+  responses:
+    NoContent:
+      description: The resource was deleted successfully.
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Err"
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Err"
+    InternalError:
+      description: unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Err"
+  schemas:
+    Err:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+    
+    Alert:
+      required:
+        - at
+      type: object
+      properties:
+        id:
+          type: string
+        startedAt:
+          type: string
+          format: date
+          description: "开始报警的时间"
+        lastAt:
+          type: string
+          format: date
+          description: "最近一次报警时间"
+        vehicle:
+          type: string
+          description: 车架号
+        ns:
+          type: string
+          description: ns
+        line:
+          type: string
+          description: 线路
+        code:
+          type: string
+          description: "故障码"
+        level:
+          type: integer
+          format: int32
+          description: "故障等级"
+        name:
+          type: string
+          description: "故障名称"
+        plate:
+          type: string
+          description: "车牌号"
+        vehicleModel:
+          type: string
+          description: "车型"
+        vehicleModelBrief:
+          type: string
+          description: "车型简称"
+        vehicleNo:
+          type: string
+          description: "车辆自编号"
+        vehicleMileage:
+          type: Number
+          description: "车辆总里程"
+        vehicleYearsFromPlate:
+          type: Number
+          description: "车辆使用年限"
+        state:
+          type: string
+          enum: ["OPEN", "CLOSE"]
+          default: "OPEN"
+          description: "状态: 开启，关闭"
+        # metrics
+        count:
+          type: number
+          description: 硬件上报次数
+        level1Count:
+          type: number
+          description: 1级警报硬件上报次数
+        level2Count:
+          type: number
+          description: 2级警报硬件上报次数
+        level3Count:
+          type: number
+          description: 3级警报硬件上报次数
+        times:
+          type: integer
+          format: int32
+          description: 报警数量(时间槽规约)
+        level1Times:
+          type: number
+          description: 1级警报数量(时间槽规约)
+        level2Times:
+          type: number
+          description: 2级警报数量(时间槽规约)
+        level3Times:
+          type: number
+          description: 3级警报数量(时间槽规约)
+
+    
+    Vehicle:
+      required:
+        - at
+      type: object
+      properties:
+        at:
+          type: date
+          description: 统计记录的时间
+        vin:
+          type: string
+          description: vin
+        ns:
+          type: string
+          description: ns
+        line:
+          type: string
+          description: line
+        producer:
+          type: string
+          description: produer
+        modelBrief:
+          type: string
+          description: modelBrief
+        "no":
+          type: string
+          description: vehicleNo
+        # metrics
+        vechiles:
+          type: number
+          description: 车辆总数
+        mileage:
+          type: number
+          description: 里程(km)
+        consumption:
+          type: number
+          description: 能耗
+
+    MileageRecord:
+      required:
+        - at
+        - mileage
+      type: object
+      properties:
+        at:
+          type: date
+          description: 记录采集日期
+        mileage:
+          type: number
+          description: 里程(km)
+    EnergyConsumptionRecord:
+      required:
+        - at
+        - energyConsumption
+      type: object
+      properties:
+        at:
+          type: date
+          description: 记录采集日期
+        mileage:
+          type: number
+          description: 能耗(kW*h)
+    WarningsStatistics:
+      required:
+        - group
+        - name
+      type: object
+      properties:
+        group:
+          type: string
+          description: 分组
+        name:
+          type: string
+          description: 组名
+        data:
+          type: array
+          description: 数据
+
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
