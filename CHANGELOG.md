@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.1](https://github.com/36node/bus-chart-sdk-js/compare/v0.12.0...v0.12.1) (2019-07-21)
+
+
+### Bug Fixes
+
+* rename mock alerts and vehicle ([680ff5f](https://github.com/36node/bus-chart-sdk-js/commit/680ff5f))
+
+
+
 ## [0.12.0](https://github.com/36node/bus-chart-sdk-js/compare/v0.11.0...v0.12.0) (2019-07-10)
 
 
