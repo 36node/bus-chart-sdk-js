@@ -15,7 +15,7 @@ const myRouter = (req, res, next) => {
   // }
 
   // FIXME: 临时处理
-  if (req.path !== "/vehicles") {
+  if (req.path !== "/chartVehicles") {
     delete req.query.at_gte;
     delete req.query.at_lte;
   }
@@ -69,8 +69,8 @@ const generateRewrites = base => {
   rewrites[`${base}/warnings/statistics/pile/company*`] =
     "/listWarningsStatisticsPileCompany";
 
-  rewrites[`${base}/vehicles*`] = "/vehicles$1";
-  rewrites[`${base}/alerts*`] = "/alerts$1";
+  rewrites[`${base}/vehicles*`] = "/chartVehicles$1";
+  rewrites[`${base}/alerts*`] = "/chartAlerts$1";
 
   return rewrites;
 };
@@ -91,8 +91,8 @@ function mock({
      * mock data
      */
     db: {
-      vehicles: genChartVehicles(vehicles),
-      alerts: genChartAlerts({ vehicles, count: alertsCount }),
+      chartVehicles: genChartVehicles(vehicles),
+      chartAlerts: genChartAlerts({ vehicles, count: alertsCount }),
       listMileages: listMileages("xxxx", {
         at_gt: "2019-01-01",
         at_lt: "2020-01-01",
@@ -231,7 +231,7 @@ function mock({
     routers: [myRouter],
 
     aggregations: {
-      "/vehicles": {
+      "/chartVehicles": {
         vehicles: (records = []) => _.uniqBy(records, "vin").length,
         mileage: "sum",
         consumption: "sum",
@@ -240,7 +240,7 @@ function mock({
         consumptionAvg: (records = []) =>
           _.sumBy(records, "consumption") / (_.sumBy(records, "mileage") / 100),
       },
-      "/alerts": {
+      "/chartAlerts": {
         count: (records = []) => _.sumBy(records, "count"),
         times: (records = []) => records.length,
         level1Times: (records = []) =>
