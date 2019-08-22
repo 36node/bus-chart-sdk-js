@@ -2,6 +2,8 @@
 
 [![version][0]][1] [![downloads][2]][3]
 
+主要负责历史数据的统计与存储。
+
 ## Install
 
 ```bash
