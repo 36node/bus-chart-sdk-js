@@ -42,7 +42,7 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "500":
           $ref: "#/components/responses/InternalError"
-
+    
   /vehicles/{vehicleId}/mileages:
     get:
       summary: List mileage records of an vehicle
@@ -578,6 +578,9 @@ components:
         mileage:
           type: number
           description: 里程(km)
+        value:
+          type: number
+          description: 里程(km)
     EnergyConsumptionRecord:
       required:
         - at
@@ -588,6 +591,9 @@ components:
           type: date
           description: 记录采集日期
         discharge:
+          type: number
+          description: 能耗(kW*h)
+        value:
           type: number
           description: 能耗(kW*h)
     WarningsStatistics:

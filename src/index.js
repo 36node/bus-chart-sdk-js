@@ -25,7 +25,7 @@ export default class SDK {
    *
    * @param {Object} opt
    * @param {string} opt.base  base url
-   * @param {string} opt.token token fro authorization
+   * @param {string} opt.token token for authorization
    */
   constructor(opt = {}) {
     this.base = opt.base || "";
@@ -51,7 +51,7 @@ export default class SDK {
         throw new Error("requetBody is required for createVehicleSnapshot");
 
       return fetch(`${this.base}/vehicles/${vehicleId}/snapshot`, {
-        method: "post",
+        method: "POST",
         body,
         headers: { Authorization: this.auth, ...headers },
       });
@@ -69,7 +69,7 @@ export default class SDK {
       if (!query) throw new Error("query is required for vehicle");
 
       return fetch(`${this.base}/vehicles/${vehicleId}/mileages`, {
-        method: "get",
+        method: "GET",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
       });
@@ -88,7 +88,7 @@ export default class SDK {
       if (!query) throw new Error("query is required for vehicle");
 
       return fetch(`${this.base}/vehicles/${vehicleId}/energyconsumptions`, {
-        method: "get",
+        method: "GET",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
       });
@@ -105,7 +105,7 @@ export default class SDK {
       if (!query) throw new Error("query is required for vehicle");
 
       return fetch(`${this.base}/vehicles`, {
-        method: "get",
+        method: "GET",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
       });
@@ -129,8 +129,8 @@ export default class SDK {
         throw new Error("groupKey is required for listWarningsStatistics");
       if (!query) throw new Error("query is required for warning");
 
-      return fetch(`${this.base}/warnings/statistics/${type}/{groupKey}`, {
-        method: "get",
+      return fetch(`${this.base}/warnings/statistics/${type}/${groupKey}`, {
+        method: "GET",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
       });
@@ -150,7 +150,7 @@ export default class SDK {
       const { query, headers } = req;
 
       return fetch(`${this.base}/alerts`, {
-        method: "get",
+        method: "GET",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
       });
