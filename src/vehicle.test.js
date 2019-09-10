@@ -57,6 +57,6 @@ describe("## SDK vehicle energy consumptions", () => {
     expect(result.body.length).toBeGreaterThan(0);
     const energyConsumptionRecord = result.body[0];
     expect(energyConsumptionRecord.at).toBeTruthy();
-    expect(energyConsumptionRecord.mileage).toBeGreaterThan(0);
+    expect(energyConsumptionRecord.discharge).toBeGreaterThan(0);
   });
 });

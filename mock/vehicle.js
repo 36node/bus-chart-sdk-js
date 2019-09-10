@@ -32,7 +32,7 @@ const listEnergyConsumptions = (vehicleId, { at_gt, at_lt }) => {
     .filter(at => at.diff(at_gt) >= 0 && at.diff(at_lt) <= 0)
     .map(at => ({
       at: at.format("YYYY-MM-DD"),
-      mileage: faker.random.number({
+      discharge: faker.random.number({
         min: 0,
         max: 400,
         precision: 0.01,

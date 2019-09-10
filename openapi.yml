@@ -11,6 +11,38 @@ servers:
       basePath:
         default: /chart/v0
 paths:
+  /vehicles/{vehicleId}/snapshot:
+    post:
+      summary: create snapshot
+      operationId: createVehicleSnapshot
+      tags:
+        - vehicle
+      parameters:
+        - name: vehicleId
+          in: path
+          required: true
+          description: The id of vechile
+          schema:
+            type: string
+      requestBody:
+        description: Snapshot to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Vehicle"
+      responses:
+        "201":
+          description: The snapshot created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
   /vehicles/{vehicleId}/mileages:
     get:
       summary: List mileage records of an vehicle
@@ -142,7 +174,7 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "500":
           $ref: "#/components/responses/InternalError"
-  
+
 
   /vehicles:
     get:
@@ -411,7 +443,7 @@ components:
       required:
         - code
         - message
-    
+
     Alert:
       required:
         - at
@@ -496,7 +528,7 @@ components:
           type: number
           description: 3级警报数量(时间槽规约)
 
-    
+
     Vehicle:
       required:
         - at
@@ -555,7 +587,7 @@ components:
         at:
           type: date
           description: 记录采集日期
-        mileage:
+        discharge:
           type: number
           description: 能耗(kW*h)
     WarningsStatistics:

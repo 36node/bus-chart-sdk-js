@@ -20,6 +20,12 @@ declare namespace SDK {
 
   export interface VehicleAPI {
     /**
+     * create snapshot
+     */
+    createVehicleSnapshot(
+      req: CreateVehicleSnapshotRequest
+    ): Promise<CreateVehicleSnapshotResponse>;
+    /**
      * List mileage records of an vehicle
      */
     listMileages(req: ListMileagesRequest): Promise<ListMileagesResponse>;
@@ -49,6 +55,15 @@ declare namespace SDK {
     listChartAlerts(req: ListChartAlertsRequest): Promise<ListChartAlertsResponse>;
   }
 
+  type CreateVehicleSnapshotRequest = {
+    vehicleId: string;
+    body: Vehicle;
+  };
+
+  type CreateVehicleSnapshotResponse = {
+    body: Vehicle;
+  };
+
   type ListMileagesRequest = {
     vehicleId: string;
 
@@ -63,7 +78,7 @@ declare namespace SDK {
   };
 
   type ListMileagesResponse = {
-    body: [MileageRecord];
+    body: Array<MileageRecord>;
   };
 
   type ListEnergyConsumptionsRequest = {
@@ -80,7 +95,7 @@ declare namespace SDK {
   };
 
   type ListEnergyConsumptionsResponse = {
-    body: [EnergyConsumptionRecord];
+    body: Array<EnergyConsumptionRecord>;
   };
 
   type ListChartVehiclesRequest = {
@@ -107,7 +122,7 @@ declare namespace SDK {
   };
 
   type ListChartVehiclesResponse = {
-    body: [Vehicle];
+    body: Array<Vehicle>;
   };
 
   type ListWarningsStatisticsRequest = {
@@ -125,7 +140,7 @@ declare namespace SDK {
   };
 
   type ListWarningsStatisticsResponse = {
-    body: [WarningsStatistics];
+    body: Array<WarningsStatistics>;
   };
 
   type ListChartAlertsRequest = {
@@ -169,13 +184,14 @@ declare namespace SDK {
   };
 
   type ListChartAlertsResponse = {
-    body: [Alert];
+    body: Array<Alert>;
   };
 
   type Err = {
     code: string;
     message: string;
   };
+
   type Alert = {
     id: string;
     startedAt: string;
@@ -192,7 +208,7 @@ declare namespace SDK {
     vehicleNo: string;
     vehicleMileage: Number;
     vehicleYearsFromPlate: Number;
-    state: "OPEN" | "CLOSE";
+    state: string;
     count: number;
     level1Count: number;
     level2Count: number;
@@ -202,6 +218,7 @@ declare namespace SDK {
     level2Times: number;
     level3Times: number;
   };
+
   type Vehicle = {
     at: date;
     vin: string;
@@ -214,17 +231,20 @@ declare namespace SDK {
     mileage: number;
     consumption: number;
   };
+
   type MileageRecord = {
     at: date;
     mileage: number;
   };
+
   type EnergyConsumptionRecord = {
     at: date;
-    mileage: number;
+    discharge: number;
   };
+
   type WarningsStatistics = {
     group: string;
     name: string;
-    data: [undefined];
+    data: Array<undefined>;
   };
 }

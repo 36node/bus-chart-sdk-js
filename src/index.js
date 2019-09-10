@@ -25,7 +25,7 @@ export default class SDK {
    *
    * @param {Object} opt
    * @param {string} opt.base  base url
-   * @param {string} opt.token token for authorization
+   * @param {string} opt.token token fro authorization
    */
   constructor(opt = {}) {
     this.base = opt.base || "";
@@ -36,6 +36,26 @@ export default class SDK {
    * vehicle's methods
    */
   vehicle = {
+    /**
+     * create snapshot
+     *
+     * @param {CreateVehicleSnapshotRequest} req createVehicleSnapshot request
+     * @returns {Promise<CreateVehicleSnapshotResponse>} The snapshot created
+     */
+    createVehicleSnapshot: (req = {}) => {
+      const { vehicleId, headers, body } = req;
+
+      if (!vehicleId)
+        throw new Error("vehicleId is required for createVehicleSnapshot");
+      if (!body)
+        throw new Error("requetBody is required for createVehicleSnapshot");
+
+      return fetch(`${this.base}/vehicles/${vehicleId}/snapshot`, {
+        method: "post",
+        body,
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
     /**
      * List mileage records of an vehicle
      *
@@ -109,7 +129,7 @@ export default class SDK {
         throw new Error("groupKey is required for listWarningsStatistics");
       if (!query) throw new Error("query is required for warning");
 
-      return fetch(`${this.base}/warnings/statistics/${type}/${groupKey}`, {
+      return fetch(`${this.base}/warnings/statistics/${type}/{groupKey}`, {
         method: "get",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
