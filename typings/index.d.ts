@@ -7,8 +7,10 @@ declare class SDK {
   token: string;
   auth: string;
 
+  event: SDK.EventAPI;
   vehicle: SDK.VehicleAPI;
   warning: SDK.WarningAPI;
+  analysis: SDK.AnalysisAPI;
   alert: SDK.AlertAPI;
 }
 
@@ -18,13 +20,13 @@ declare namespace SDK {
     token?: string;
   }
 
-  export interface VehicleAPI {
+  export interface EventAPI {
     /**
-     * create snapshot
+     * create event
      */
-    createVehicleSnapshot(
-      req: CreateVehicleSnapshotRequest
-    ): Promise<CreateVehicleSnapshotResponse>;
+    createEvent(req: CreateEventRequest): Promise<CreateEventResponse>;
+  }
+  export interface VehicleAPI {
     /**
      * List mileage records of an vehicle
      */
@@ -48,6 +50,24 @@ declare namespace SDK {
       req: ListWarningsStatisticsRequest
     ): Promise<ListWarningsStatisticsResponse>;
   }
+  export interface AnalysisAPI {
+    /**
+     * List overall statistics
+     */
+    listOverallStatistics(
+      req: ListOverallStatisticsRequest
+    ): Promise<ListOverallStatisticsResponse>;
+    /**
+     * List alert statistics
+     */
+    listAlertStatistics(req: ListAlertStatisticsRequest): Promise<ListAlertStatisticsResponse>;
+    /**
+     * List alert rate statistics
+     */
+    listAlertRateStatistics(
+      req: ListAlertRateStatisticsRequest
+    ): Promise<ListAlertRateStatisticsResponse>;
+  }
   export interface AlertAPI {
     /**
      * List alerts chart records
@@ -55,12 +75,11 @@ declare namespace SDK {
     listChartAlerts(req: ListChartAlertsRequest): Promise<ListChartAlertsResponse>;
   }
 
-  type CreateVehicleSnapshotRequest = {
-    vehicleId: string;
-    body: Vehicle;
+  type CreateEventRequest = {
+    body: Event;
   };
 
-  type CreateVehicleSnapshotResponse = {
+  type CreateEventResponse = {
     body: Vehicle;
   };
 
@@ -143,6 +162,60 @@ declare namespace SDK {
     body: [WarningsStatistics];
   };
 
+  type ListOverallStatisticsRequest = {
+    query: {
+      filter: {
+        at: {
+          $gt: string;
+          $lt: string;
+        };
+        ns: {
+          $regex: string;
+        };
+      };
+    };
+  };
+
+  type ListOverallStatisticsResponse = {
+    body: [AnalysisStatistics];
+  };
+
+  type ListAlertStatisticsRequest = {
+    query: {
+      filter: {
+        at: {
+          $gt: string;
+          $lt: string;
+        };
+        ns: {
+          $regex: string;
+        };
+      };
+    };
+  };
+
+  type ListAlertStatisticsResponse = {
+    body: [AnalysisStatistics];
+  };
+
+  type ListAlertRateStatisticsRequest = {
+    query: {
+      filter: {
+        at: {
+          $gt: string;
+          $lt: string;
+        };
+        ns: {
+          $regex: string;
+        };
+      };
+    };
+  };
+
+  type ListAlertRateStatisticsResponse = {
+    body: [AnalysisStatistics];
+  };
+
   type ListChartAlertsRequest = {
     query: {
       limit?: string;
@@ -190,6 +263,13 @@ declare namespace SDK {
   type Err = {
     code: string;
     message: string;
+  };
+  type Event = {
+    flag: string;
+    event: string;
+    vin: string;
+    ns: string;
+    body: {};
   };
   type Alert = {
     id: string;
@@ -243,5 +323,8 @@ declare namespace SDK {
     group: string;
     name: string;
     data: [undefined];
+  };
+  type AnalysisStatistics = {
+    name: string;
   };
 }

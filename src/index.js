@@ -33,29 +33,31 @@ export default class SDK {
   }
 
   /**
-   * vehicle's methods
+   * event's methods
    */
-  vehicle = {
+  event = {
     /**
-     * create snapshot
+     * create event
      *
-     * @param {CreateVehicleSnapshotRequest} req createVehicleSnapshot request
-     * @returns {Promise<CreateVehicleSnapshotResponse>} The snapshot created
+     * @param {CreateEventRequest} req createEvent request
+     * @returns {Promise<CreateEventResponse>} The snapshot created
      */
-    createVehicleSnapshot: (req = {}) => {
-      const { vehicleId, headers, body } = req;
+    createEvent: (req = {}) => {
+      const { headers, body } = req;
 
-      if (!vehicleId)
-        throw new Error("vehicleId is required for createVehicleSnapshot");
-      if (!body)
-        throw new Error("requetBody is required for createVehicleSnapshot");
+      if (!body) throw new Error("requetBody is required for createEvent");
 
-      return fetch(`${this.base}/vehicles/${vehicleId}/snapshot`, {
+      return fetch(`${this.base}/events`, {
         method: "POST",
         body,
         headers: { Authorization: this.auth, ...headers },
       });
     },
+  };
+  /**
+   * vehicle's methods
+   */
+  vehicle = {
     /**
      * List mileage records of an vehicle
      *
@@ -130,6 +132,62 @@ export default class SDK {
       if (!query) throw new Error("query is required for warning");
 
       return fetch(`${this.base}/warnings/statistics/${type}/${groupKey}`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
+  /**
+   * analysis's methods
+   */
+  analysis = {
+    /**
+     * List overall statistics
+     *
+     * @param {ListOverallStatisticsRequest} req listOverallStatistics request
+     * @returns {Promise<ListOverallStatisticsResponse>} An array of overall statistics
+     */
+    listOverallStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for analysis");
+
+      return fetch(`${this.base}/analysis/overall`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
+     * List alert statistics
+     *
+     * @param {ListAlertStatisticsRequest} req listAlertStatistics request
+     * @returns {Promise<ListAlertStatisticsResponse>} An array of alert statistics
+     */
+    listAlertStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for analysis");
+
+      return fetch(`${this.base}/analysis/alerts`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
+     * List alert rate statistics
+     *
+     * @param {ListAlertRateStatisticsRequest} req listAlertRateStatistics request
+     * @returns {Promise<ListAlertRateStatisticsResponse>} An array of alert rate statistics
+     */
+    listAlertRateStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for analysis");
+
+      return fetch(`${this.base}/analysis/alert-rate`, {
         method: "GET",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },

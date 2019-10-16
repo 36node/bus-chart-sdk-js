@@ -11,26 +11,19 @@ servers:
       basePath:
         default: /chart/v0
 paths:
-  /vehicles/{vehicleId}/snapshot:
+  /events:
     post:
-      summary: create snapshot
-      operationId: createVehicleSnapshot
+      summary: create event
+      operationId: createEvent
       tags:
-        - vehicle
-      parameters:
-        - name: vehicleId
-          in: path
-          required: true
-          description: The id of vechile
-          schema:
-            type: string
+        - event
       requestBody:
-        description: Snapshot to be created
+        description: Event to be created
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Vehicle"
+              $ref: "#/components/schemas/Event"
       responses:
         "201":
           description: The snapshot created
@@ -42,7 +35,7 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "500":
           $ref: "#/components/responses/InternalError"
-    
+
   /vehicles/{vehicleId}/mileages:
     get:
       summary: List mileage records of an vehicle
@@ -175,6 +168,131 @@ paths:
         "500":
           $ref: "#/components/responses/InternalError"
 
+  /analysis/overall:
+    get:
+      summary: List overall statistics
+      operationId: listOverallStatistics
+      tags:
+        - analysis
+      deprecated: true
+      parameters:
+        - name: at_gt
+          in: query
+          description: 返回采集时间大于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: at_lt
+          in: query
+          description: 返回采集时间小于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: ns_like
+          in: query
+          required: true
+          description: Filter by ns
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An array of overall statistics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnalysisStatistics"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /analysis/alerts:
+    get:
+      summary: List alert statistics
+      operationId: listAlertStatistics
+      tags:
+        - analysis
+      deprecated: true
+      parameters:
+        - name: at_gt
+          in: query
+          description: 返回采集时间大于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: at_lt
+          in: query
+          description: 返回采集时间小于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: ns_like
+          in: query
+          required: true
+          description: Filter by ns
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An array of alert statistics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnalysisStatistics"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /analysis/alert-rate:
+    get:
+      summary: List alert rate statistics
+      operationId: listAlertRateStatistics
+      tags:
+        - analysis
+      deprecated: true
+      parameters:
+        - name: at_gt
+          in: query
+          description: 返回采集时间大于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: at_lt
+          in: query
+          description: 返回采集时间小于某个时间戳的记录
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: ns_like
+          in: query
+          required: true
+          description: Filter by ns
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An array of alert rate statistics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnalysisStatistics"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
 
   /vehicles:
     get:
@@ -443,6 +561,25 @@ components:
       required:
         - code
         - message
+    Event:
+      required:
+        - flag
+        - event
+        - vin
+        - ns
+        - body
+      type: object
+      properties:
+        flag:
+          type: string
+        event:
+          type: string
+        vin:
+          type: string
+        ns:
+          type: string
+        body:
+          type: object
 
     Alert:
       required:
@@ -611,6 +748,16 @@ components:
         data:
           type: array
           description: 数据
+
+    AnalysisStatistics:
+      required:
+        - name
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: 组名
 
   securitySchemes:
     bearerAuth: # arbitrary name for the security scheme
