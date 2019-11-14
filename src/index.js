@@ -214,4 +214,41 @@ export default class SDK {
       });
     },
   };
+  /**
+   * power's methods
+   */
+  power = {
+    /**
+     * List power statistics
+     *
+     * @param {ListPowerStatisticsRequest} req listPowerStatistics request
+     * @returns {Promise<ListPowerStatisticsResponse>} An array of chart power records
+     */
+    listPowerStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      return fetch(`${this.base}/power/statistics`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
+     * List power chart records
+     *
+     * @param {ListPowerRequest} req listPower request
+     * @returns {Promise<ListPowerResponse>} An array of chart power records
+     */
+    listPower: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for power");
+
+      return fetch(`${this.base}/power`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
 }

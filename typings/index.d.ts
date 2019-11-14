@@ -12,6 +12,7 @@ declare class SDK {
   warning: SDK.WarningAPI;
   analysis: SDK.AnalysisAPI;
   alert: SDK.AlertAPI;
+  power: SDK.PowerAPI;
 }
 
 declare namespace SDK {
@@ -73,6 +74,16 @@ declare namespace SDK {
      * List alerts chart records
      */
     listChartAlerts(req: ListChartAlertsRequest): Promise<ListChartAlertsResponse>;
+  }
+  export interface PowerAPI {
+    /**
+     * List power statistics
+     */
+    listPowerStatistics(req: ListPowerStatisticsRequest): Promise<ListPowerStatisticsResponse>;
+    /**
+     * List power chart records
+     */
+    listPower(req: ListPowerRequest): Promise<ListPowerResponse>;
   }
 
   type CreateEventRequest = {
@@ -260,6 +271,48 @@ declare namespace SDK {
     body: [Alert];
   };
 
+  type ListPowerStatisticsRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex?: string;
+        };
+      };
+    };
+  };
+
+  type ListPowerStatisticsResponse = {
+    body: [AnalysisStatistics];
+  };
+
+  type ListPowerRequest = {
+    query: {
+      limit?: string;
+      offset?: string;
+
+      filter: {
+        no?: string;
+        ns: {
+          $regex: string;
+        };
+        line?: string;
+        producer?: string;
+        modelBrief?: string;
+        at: {
+          $gt?: string;
+          $lt?: string;
+        };
+      };
+    };
+  };
+
+  type ListPowerResponse = {
+    body: [Power];
+    headers: {
+      xTotalCount: string;
+    };
+  };
+
   type Err = {
     code: string;
     message: string;
@@ -326,5 +379,16 @@ declare namespace SDK {
   };
   type AnalysisStatistics = {
     name: string;
+  };
+  type Power = {
+    at: date;
+    ns: string;
+    line: string;
+    producer: string;
+    modelBrief: string;
+    no: string;
+    mileage: number;
+    charge: number;
+    disCharge: number;
   };
 }
