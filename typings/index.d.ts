@@ -13,6 +13,7 @@ declare class SDK {
   analysis: SDK.AnalysisAPI;
   alert: SDK.AlertAPI;
   power: SDK.PowerAPI;
+  exception: SDK.ExceptionAPI;
 }
 
 declare namespace SDK {
@@ -84,6 +85,14 @@ declare namespace SDK {
      * List power chart records
      */
     listPower(req: ListPowerRequest): Promise<ListPowerResponse>;
+  }
+  export interface ExceptionAPI {
+    /**
+     * List exception statistics
+     */
+    listExceptionStatistics(
+      req: ListExceptionStatisticsRequest
+    ): Promise<ListExceptionStatisticsResponse>;
   }
 
   type CreateEventRequest = {
@@ -275,7 +284,7 @@ declare namespace SDK {
     query: {
       filter: {
         ns: {
-          $regex?: string;
+          $regex: string;
         };
       };
     };
@@ -311,6 +320,22 @@ declare namespace SDK {
     headers: {
       xTotalCount: string;
     };
+  };
+
+  type ListExceptionStatisticsRequest = {
+    type: string;
+
+    query: {
+      filter: {
+        ns: {
+          $regex: string;
+        };
+      };
+    };
+  };
+
+  type ListExceptionStatisticsResponse = {
+    body: [AnalysisStatistics];
   };
 
   type Err = {

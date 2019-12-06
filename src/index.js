@@ -227,6 +227,8 @@ export default class SDK {
     listPowerStatistics: (req = {}) => {
       const { query, headers } = req;
 
+      if (!query) throw new Error("query is required for power");
+
       return fetch(`${this.base}/power/statistics`, {
         method: "GET",
         query: denormalize(query),
@@ -245,6 +247,30 @@ export default class SDK {
       if (!query) throw new Error("query is required for power");
 
       return fetch(`${this.base}/power`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
+  /**
+   * exception's methods
+   */
+  exception = {
+    /**
+     * List exception statistics
+     *
+     * @param {ListExceptionStatisticsRequest} req listExceptionStatistics request
+     * @returns {Promise<ListExceptionStatisticsResponse>} An array of chart exception records
+     */
+    listExceptionStatistics: (req = {}) => {
+      const { type, query, headers } = req;
+
+      if (!type)
+        throw new Error("type is required for listExceptionStatistics");
+      if (!query) throw new Error("query is required for exception");
+
+      return fetch(`${this.base}/exception/statistics/${type}`, {
         method: "GET",
         query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
