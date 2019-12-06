@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.13.6](https://github.com/36node/bus-chart-sdk-js/compare/v0.13.5...v0.13.6) (2019-12-06)
+
+
+### Features
+
+* update ([38619e3](https://github.com/36node/bus-chart-sdk-js/commit/38619e3))
+
 ### [0.13.5](https://github.com/36node/bus-chart-sdk-js/compare/v0.13.4...v0.13.5) (2019-11-14)
 
 ### [0.13.4](https://github.com/36node/bus-chart-sdk-js/compare/v0.13.3...v0.13.4) (2019-10-16)
