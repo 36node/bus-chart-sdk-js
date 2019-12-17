@@ -112,6 +112,21 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * List platform tbox statistics
+     *
+     * @param {ListPlatformStatRequest} req listPlatformStat request
+     * @returns {Promise<ListPlatformStatResponse>} An array of platform stat
+     */
+    listPlatformStat: (req = {}) => {
+      const { query, headers } = req;
+
+      return fetch(`${this.base}/platform/statistics`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
   /**
    * warning's methods

@@ -43,6 +43,10 @@ declare namespace SDK {
      * List vehicles chart records
      */
     listChartVehicles(req: ListChartVehiclesRequest): Promise<ListChartVehiclesResponse>;
+    /**
+     * List platform tbox statistics
+     */
+    listPlatformStat(req: ListPlatformStatRequest): Promise<ListPlatformStatResponse>;
   }
   export interface WarningAPI {
     /**
@@ -162,6 +166,22 @@ declare namespace SDK {
 
   type ListChartVehiclesResponse = {
     body: [Vehicle];
+  };
+
+  type ListPlatformStatRequest = {
+    query: {
+      filter: {
+        time: {
+          $gt?: string;
+          $lt?: string;
+        };
+        interval?: string;
+      };
+    };
+  };
+
+  type ListPlatformStatResponse = {
+    body: [PlatFormStat];
   };
 
   type ListWarningsStatisticsRequest = {
@@ -406,7 +426,7 @@ declare namespace SDK {
     name: string;
   };
   type Power = {
-    at: date;
+    at: string;
     ns: string;
     line: string;
     producer: string;
@@ -415,5 +435,16 @@ declare namespace SDK {
     mileage: number;
     charge: number;
     disCharge: number;
+  };
+  type PlatFormStat = {
+    platform: string;
+    vehicle_count: number;
+    tbox_count: number;
+    histogram: [
+      {
+        key: string;
+        count: number;
+      }
+    ];
   };
 }
