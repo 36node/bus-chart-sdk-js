@@ -269,6 +269,45 @@ export default class SDK {
     },
   };
   /**
+   * banci's methods
+   */
+  banci = {
+    /**
+     * List driver power statistics
+     *
+     * @param {ListDriverPowerStatisticsRequest} req listDriverPowerStatistics request
+     * @returns {Promise<ListDriverPowerStatisticsResponse>} An array of chart power records
+     */
+    listDriverPowerStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for banci");
+
+      return fetch(`${this.base}/driver-power/statistics`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
+     * List driver power records
+     *
+     * @param {ListDirverPowerRequest} req listDirverPower request
+     * @returns {Promise<ListDirverPowerResponse>} An array of driver power records
+     */
+    listDirverPower: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for banci");
+
+      return fetch(`${this.base}/driver-power`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
+  /**
    * exception's methods
    */
   exception = {

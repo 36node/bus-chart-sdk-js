@@ -13,6 +13,7 @@ declare class SDK {
   analysis: SDK.AnalysisAPI;
   alert: SDK.AlertAPI;
   power: SDK.PowerAPI;
+  banci: SDK.BanciAPI;
   exception: SDK.ExceptionAPI;
 }
 
@@ -89,6 +90,18 @@ declare namespace SDK {
      * List power chart records
      */
     listPower(req: ListPowerRequest): Promise<ListPowerResponse>;
+  }
+  export interface BanciAPI {
+    /**
+     * List driver power statistics
+     */
+    listDriverPowerStatistics(
+      req: ListDriverPowerStatisticsRequest
+    ): Promise<ListDriverPowerStatisticsResponse>;
+    /**
+     * List driver power records
+     */
+    listDirverPower(req: ListDirverPowerRequest): Promise<ListDirverPowerResponse>;
   }
   export interface ExceptionAPI {
     /**
@@ -342,6 +355,65 @@ declare namespace SDK {
     };
   };
 
+  type ListDriverPowerStatisticsRequest = {
+    query: {
+      limit?: string;
+      group: string;
+
+      filter: {
+        ns: {
+          $regex: string;
+        };
+        order?: string;
+        date: {
+          $gte?: string;
+          $lte?: string;
+        };
+      };
+    };
+  };
+
+  type ListDriverPowerStatisticsResponse = {
+    body: [DriverPowerStat];
+  };
+
+  type ListDirverPowerRequest = {
+    query: {
+      limit?: string;
+      offset?: string;
+
+      filter: {
+        ns: {
+          $regex: string;
+        };
+        line?: string;
+        vehicleNo?: string;
+        vehicle?: string;
+        vehicleModel?: string;
+        vehicleModelBrief?: string;
+        vehicleModelPlate?: string;
+        vehicleModelProducer?: string;
+        driverName?:
+          | {
+              $regex: string;
+            }
+          | string;
+        driverNo?: string;
+        date: {
+          $gte?: string;
+          $lte?: string;
+        };
+      };
+    };
+  };
+
+  type ListDirverPowerResponse = {
+    body: [DriverPower];
+    headers: {
+      xTotalCount: string;
+    };
+  };
+
   type ListExceptionStatisticsRequest = {
     type: string;
 
@@ -383,8 +455,8 @@ declare namespace SDK {
     vehicleModel: string;
     vehicleModelBrief: string;
     vehicleNo: string;
-    vehicleMileage: Number;
-    vehicleYearsFromPlate: Number;
+    vehicleMileage: number;
+    vehicleYearsFromPlate: number;
     state: "OPEN" | "CLOSE";
     count: number;
     level1Count: number;
@@ -396,7 +468,7 @@ declare namespace SDK {
     level3Times: number;
   };
   type Vehicle = {
-    at: date;
+    at: string;
     vin: string;
     ns: string;
     line: string;
@@ -408,12 +480,12 @@ declare namespace SDK {
     consumption: number;
   };
   type MileageRecord = {
-    at: date;
+    at: string;
     mileage: number;
     value: number;
   };
   type EnergyConsumptionRecord = {
-    at: date;
+    at: string;
     discharge: number;
     value: number;
   };
@@ -435,6 +507,30 @@ declare namespace SDK {
     mileage: number;
     charge: number;
     disCharge: number;
+    reverse: number;
+  };
+  type DriverPowerStat = {
+    ns: string;
+    driverNo: string;
+    driverName: string;
+    totalMileage: number;
+    totalPower: number;
+  };
+  type DriverPower = {
+    id: string;
+    date: string;
+    ns: string;
+    line: string;
+    vehicleProducer: string;
+    vehicleModel: string;
+    vehiclePlate: string;
+    vehicleModelBrief: string;
+    vehicleNo: string;
+    driverNo: string;
+    driverName: string;
+    banciCount: number;
+    totalMileage: number;
+    power: number;
   };
   type PlatFormStat = {
     platform: string;
