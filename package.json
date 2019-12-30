@@ -1,6 +1,6 @@
 {
   "name": "@36node/bus-chart-sdk",
-  "version": "0.13.8",
+  "version": "0.13.9",
   "description": "A SDK boilerplate.",
   "repository": {
     "url": "36node/bus-chart-sdk-js",
@@ -24,7 +24,7 @@
   "scripts": {
     "build": "sketch build",
     "format": "prettier --trailing-comma es5 --write 'src/**/*.js'",
-    "gen": "swagen sdk ../bus-chart/openapi.yml",
+    "gen": "swagen sdk https://api.uat.bus.36node.com/chart/v0/openapi.yml",
     "lint": "sketch lint src",
     "release": "standard-version",
     "start": "bin/mock-server.js",
