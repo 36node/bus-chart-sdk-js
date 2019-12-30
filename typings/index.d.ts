@@ -48,6 +48,10 @@ declare namespace SDK {
      * List platform tbox statistics
      */
     listPlatformStat(req: ListPlatformStatRequest): Promise<ListPlatformStatResponse>;
+    /**
+     * List tbox datagram statistics by vin
+     */
+    listDatagramStat(req: ListDatagramStatRequest): Promise<ListDatagramStatResponse>;
   }
   export interface WarningAPI {
     /**
@@ -195,6 +199,24 @@ declare namespace SDK {
 
   type ListPlatformStatResponse = {
     body: [PlatFormStat];
+  };
+
+  type ListDatagramStatRequest = {
+    vehicleId: string;
+
+    query: {
+      filter: {
+        time: {
+          $gt?: string;
+          $lt?: string;
+        };
+        interval?: string;
+      };
+    };
+  };
+
+  type ListDatagramStatResponse = {
+    body: [DatagramRecord];
   };
 
   type ListWarningsStatisticsRequest = {
@@ -542,5 +564,9 @@ declare namespace SDK {
         count: number;
       }
     ];
+  };
+  type DatagramRecord = {
+    key: string;
+    count: number;
   };
 }

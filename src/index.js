@@ -127,6 +127,24 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * List tbox datagram statistics by vin
+     *
+     * @param {ListDatagramStatRequest} req listDatagramStat request
+     * @returns {Promise<ListDatagramStatResponse>} An array of datagram stat
+     */
+    listDatagramStat: (req = {}) => {
+      const { vehicleId, query, headers } = req;
+
+      if (!vehicleId)
+        throw new Error("vehicleId is required for listDatagramStat");
+
+      return fetch(`${this.base}/datagram/statistics/${vehicleId}`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
   /**
    * warning's methods
