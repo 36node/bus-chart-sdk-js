@@ -84,6 +84,10 @@ declare namespace SDK {
      * List alerts chart records
      */
     listChartAlerts(req: ListChartAlertsRequest): Promise<ListChartAlertsResponse>;
+    /**
+     * List histogram of alerts
+     */
+    listAlertHistogram(req: ListAlertHistogramRequest): Promise<ListAlertHistogramResponse>;
   }
   export interface PowerAPI {
     /**
@@ -335,6 +339,27 @@ declare namespace SDK {
     body: [Alert];
   };
 
+  type ListAlertHistogramRequest = {
+    query: {
+      group?: string;
+
+      filter: {
+        startedAt: {
+          $gte: string;
+          $lte: string;
+        };
+        interval: string;
+        ns: {
+          $regex: string;
+        };
+      };
+    };
+  };
+
+  type ListAlertHistogramResponse = {
+    body: [AlertHistogram];
+  };
+
   type ListPowerStatisticsRequest = {
     query: {
       filter: {
@@ -558,6 +583,16 @@ declare namespace SDK {
     platform: string;
     vehicle_count: number;
     tbox_count: number;
+    histogram: [
+      {
+        key: string;
+        count: number;
+      }
+    ];
+  };
+  type AlertHistogram = {
+    key: string;
+    count: number;
     histogram: [
       {
         key: string;

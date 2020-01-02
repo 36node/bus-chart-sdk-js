@@ -246,6 +246,23 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * List histogram of alerts
+     *
+     * @param {ListAlertHistogramRequest} req listAlertHistogram request
+     * @returns {Promise<ListAlertHistogramResponse>} An array of alerts histogram
+     */
+    listAlertHistogram: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for alert");
+
+      return fetch(`${this.base}/alert/histogram`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
   /**
    * power's methods
