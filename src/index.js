@@ -366,4 +366,26 @@ export default class SDK {
       });
     },
   };
+  /**
+   * chargeorder's methods
+   */
+  chargeorder = {
+    /**
+     * List charge order statistics
+     *
+     * @param {ListChargeOrderStatisticsRequest} req listChargeOrderStatistics request
+     * @returns {Promise<ListChargeOrderStatisticsResponse>} An array of chart charge order records
+     */
+    listChargeOrderStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for chargeorder");
+
+      return fetch(`${this.base}/chargeorder/statistics`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
 }

@@ -15,6 +15,7 @@ declare class SDK {
   power: SDK.PowerAPI;
   banci: SDK.BanciAPI;
   exception: SDK.ExceptionAPI;
+  chargeorder: SDK.ChargeorderAPI;
 }
 
 declare namespace SDK {
@@ -118,6 +119,14 @@ declare namespace SDK {
     listExceptionStatistics(
       req: ListExceptionStatisticsRequest
     ): Promise<ListExceptionStatisticsResponse>;
+  }
+  export interface ChargeorderAPI {
+    /**
+     * List charge order statistics
+     */
+    listChargeOrderStatistics(
+      req: ListChargeOrderStatisticsRequest
+    ): Promise<ListChargeOrderStatisticsResponse>;
   }
 
   type CreateEventRequest = {
@@ -477,6 +486,24 @@ declare namespace SDK {
     body: [AnalysisStatistics];
   };
 
+  type ListChargeOrderStatisticsRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex: string;
+        };
+        time: {
+          $gt?: string;
+          $lt?: string;
+        };
+      };
+    };
+  };
+
+  type ListChargeOrderStatisticsResponse = {
+    body: [ChargeOrderStat];
+  };
+
   type Err = {
     code: string;
     message: string;
@@ -603,5 +630,13 @@ declare namespace SDK {
   type DatagramRecord = {
     key: string;
     count: number;
+  };
+  type ChargeOrderStat = {
+    key: string;
+    total: number;
+    peak: number;
+    valley: number;
+    flat: number;
+    sharp: number;
   };
 }
