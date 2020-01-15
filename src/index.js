@@ -145,6 +145,23 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * List vehicle chargings histogram
+     *
+     * @param {ListVehicleChargingHistogramRequest} req listVehicleChargingHistogram request
+     * @returns {Promise<ListVehicleChargingHistogramResponse>} An array of chargings histogram
+     */
+    listVehicleChargingHistogram: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for vehicle");
+
+      return fetch(`${this.base}/vehicle-chargings/histogram`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
   /**
    * warning's methods

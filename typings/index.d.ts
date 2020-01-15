@@ -53,6 +53,12 @@ declare namespace SDK {
      * List tbox datagram statistics by vin
      */
     listDatagramStat(req: ListDatagramStatRequest): Promise<ListDatagramStatResponse>;
+    /**
+     * List vehicle chargings histogram
+     */
+    listVehicleChargingHistogram(
+      req: ListVehicleChargingHistogramRequest
+    ): Promise<ListVehicleChargingHistogramResponse>;
   }
   export interface WarningAPI {
     /**
@@ -230,6 +236,29 @@ declare namespace SDK {
 
   type ListDatagramStatResponse = {
     body: [DatagramRecord];
+  };
+
+  type ListVehicleChargingHistogramRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex: string;
+        };
+        at: {
+          $gte: string;
+          $lte: string;
+        };
+      };
+    };
+  };
+
+  type ListVehicleChargingHistogramResponse = {
+    body: [
+      {
+        code: string;
+        message: string;
+      }
+    ];
   };
 
   type ListWarningsStatisticsRequest = {
