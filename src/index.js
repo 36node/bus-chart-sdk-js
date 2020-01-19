@@ -405,4 +405,66 @@ export default class SDK {
       });
     },
   };
+  /**
+   * screen's methods
+   */
+  screen = {
+    /**
+     * Get Caobaolu Screen Energy Data
+     *
+     * @param {GetCaobaoluEnergyRequest} req getCaobaoluEnergy request
+     * @returns {Promise<GetCaobaoluEnergyResponse>} The snapshot created
+     */
+    getCaobaoluEnergy: (req = {}) => {
+      const { query, headers } = req;
+
+      return fetch(`${this.base}/screen/caobaolu/energy`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
+     * Get Caobaolu Screen Battery Data
+     *
+     * @param {GetCaobaoluBatteryRequest} req getCaobaoluBattery request
+     * @returns {Promise<GetCaobaoluBatteryResponse>} The snapshot created
+     */
+    getCaobaoluBattery: (req = {}) => {
+      const { headers } = req;
+
+      return fetch(`${this.base}/screen/caobaolu/battery`, {
+        method: "GET",
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
+     * Get Caobaolu Screen Engergy Save Data
+     *
+     * @param {GetCaobaoluSaveRequest} req getCaobaoluSave request
+     * @returns {Promise<GetCaobaoluSaveResponse>} The snapshot created
+     */
+    getCaobaoluSave: (req = {}) => {
+      const { headers } = req;
+
+      return fetch(`${this.base}/screen/caobaolu/save`, {
+        method: "GET",
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
+     * Get Caobaolu Screen Mileage Data
+     *
+     * @param {GetCaobaoluMileageRequest} req getCaobaoluMileage request
+     * @returns {Promise<GetCaobaoluMileageResponse>} The snapshot created
+     */
+    getCaobaoluMileage: (req = {}) => {
+      const { headers } = req;
+
+      return fetch(`${this.base}/screen/caobaolu/mileage`, {
+        method: "GET",
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
 }

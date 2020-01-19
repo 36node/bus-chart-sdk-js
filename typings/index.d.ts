@@ -16,6 +16,7 @@ declare class SDK {
   banci: SDK.BanciAPI;
   exception: SDK.ExceptionAPI;
   chargeorder: SDK.ChargeorderAPI;
+  screen: SDK.ScreenAPI;
 }
 
 declare namespace SDK {
@@ -133,6 +134,24 @@ declare namespace SDK {
     listChargeOrderStatistics(
       req: ListChargeOrderStatisticsRequest
     ): Promise<ListChargeOrderStatisticsResponse>;
+  }
+  export interface ScreenAPI {
+    /**
+     * Get Caobaolu Screen Energy Data
+     */
+    getCaobaoluEnergy(req: GetCaobaoluEnergyRequest): Promise<GetCaobaoluEnergyResponse>;
+    /**
+     * Get Caobaolu Screen Battery Data
+     */
+    getCaobaoluBattery(req: GetCaobaoluBatteryRequest): Promise<GetCaobaoluBatteryResponse>;
+    /**
+     * Get Caobaolu Screen Engergy Save Data
+     */
+    getCaobaoluSave(req: GetCaobaoluSaveRequest): Promise<GetCaobaoluSaveResponse>;
+    /**
+     * Get Caobaolu Screen Mileage Data
+     */
+    getCaobaoluMileage(req: GetCaobaoluMileageRequest): Promise<GetCaobaoluMileageResponse>;
   }
 
   type CreateEventRequest = {
@@ -533,6 +552,32 @@ declare namespace SDK {
     body: [ChargeOrderStat];
   };
 
+  type GetCaobaoluEnergyRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex?: string;
+        };
+      };
+    };
+  };
+
+  type GetCaobaoluEnergyResponse = {
+    body: ScreenCaobaoluEnergy;
+  };
+
+  type GetCaobaoluBatteryResponse = {
+    body: ScreenCaobaoluBattery;
+  };
+
+  type GetCaobaoluSaveResponse = {
+    body: ScreenCaobaoluSave;
+  };
+
+  type GetCaobaoluMileageResponse = {
+    body: ScreenCaobaoluMileage;
+  };
+
   type Err = {
     code: string;
     message: string;
@@ -667,5 +712,20 @@ declare namespace SDK {
     valley: number;
     flat: number;
     sharp: number;
+  };
+  type ScreenCaobaoluEnergy = {
+    totalEnergy: number;
+    energyPer100: number;
+  };
+  type ScreenCaobaoluBattery = {
+    averageBatteryLife: number;
+  };
+  type ScreenCaobaoluSave = {
+    totalCO2: number;
+    totalNOX: number;
+  };
+  type ScreenCaobaoluMileage = {
+    todayTotalMileage: number;
+    averageYearMileage: number;
   };
 }
