@@ -1,6 +1,6 @@
 {
   "name": "@36node/bus-chart-sdk",
-  "version": "0.13.14",
+  "version": "0.13.15",
   "description": "A SDK boilerplate.",
   "repository": {
     "url": "36node/bus-chart-sdk-js",
