@@ -566,12 +566,42 @@ declare namespace SDK {
     body: ScreenCaobaoluEnergy;
   };
 
+  type GetCaobaoluBatteryRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex?: string;
+        };
+      };
+    };
+  };
+
   type GetCaobaoluBatteryResponse = {
     body: ScreenCaobaoluBattery;
   };
 
+  type GetCaobaoluSaveRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex?: string;
+        };
+      };
+    };
+  };
+
   type GetCaobaoluSaveResponse = {
     body: ScreenCaobaoluSave;
+  };
+
+  type GetCaobaoluMileageRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex?: string;
+        };
+      };
+    };
   };
 
   type GetCaobaoluMileageResponse = {

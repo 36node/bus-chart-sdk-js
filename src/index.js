@@ -431,10 +431,11 @@ export default class SDK {
      * @returns {Promise<GetCaobaoluBatteryResponse>} The snapshot created
      */
     getCaobaoluBattery: (req = {}) => {
-      const { headers } = req;
+      const { query, headers } = req;
 
       return fetch(`${this.base}/screen/caobaolu/battery`, {
         method: "GET",
+        query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
       });
     },
@@ -445,10 +446,11 @@ export default class SDK {
      * @returns {Promise<GetCaobaoluSaveResponse>} The snapshot created
      */
     getCaobaoluSave: (req = {}) => {
-      const { headers } = req;
+      const { query, headers } = req;
 
       return fetch(`${this.base}/screen/caobaolu/save`, {
         method: "GET",
+        query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
       });
     },
@@ -459,10 +461,11 @@ export default class SDK {
      * @returns {Promise<GetCaobaoluMileageResponse>} The snapshot created
      */
     getCaobaoluMileage: (req = {}) => {
-      const { headers } = req;
+      const { query, headers } = req;
 
       return fetch(`${this.base}/screen/caobaolu/mileage`, {
         method: "GET",
+        query: denormalize(query),
         headers: { Authorization: this.auth, ...headers },
       });
     },
