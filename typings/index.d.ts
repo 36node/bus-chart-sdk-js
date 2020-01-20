@@ -106,6 +106,12 @@ declare namespace SDK {
      * List power chart records
      */
     listPower(req: ListPowerRequest): Promise<ListPowerResponse>;
+    /**
+     * List power screen statistics
+     */
+    listPowerScreenStatistics(
+      req: ListPowerScreenStatisticsRequest
+    ): Promise<ListPowerScreenStatisticsResponse>;
   }
   export interface BanciAPI {
     /**
@@ -457,6 +463,20 @@ declare namespace SDK {
     headers: {
       xTotalCount: string;
     };
+  };
+
+  type ListPowerScreenStatisticsRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex: string;
+        };
+      };
+    };
+  };
+
+  type ListPowerScreenStatisticsResponse = {
+    body: [AnalysisStatistics];
   };
 
   type ListDriverPowerStatisticsRequest = {

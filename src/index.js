@@ -319,6 +319,23 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * List power screen statistics
+     *
+     * @param {ListPowerScreenStatisticsRequest} req listPowerScreenStatistics request
+     * @returns {Promise<ListPowerScreenStatisticsResponse>} An array of chart power records
+     */
+    listPowerScreenStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for power");
+
+      return fetch(`${this.base}/power/screenstat`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
   /**
    * banci's methods
