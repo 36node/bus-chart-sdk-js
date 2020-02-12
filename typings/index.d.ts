@@ -158,6 +158,10 @@ declare namespace SDK {
      * Get Caobaolu Screen Mileage Data
      */
     getCaobaoluMileage(req: GetCaobaoluMileageRequest): Promise<GetCaobaoluMileageResponse>;
+    /**
+     * Get Caobaolu Screen Air Data
+     */
+    getCaobaoluAir(req: GetCaobaoluAirRequest): Promise<GetCaobaoluAirResponse>;
   }
 
   type CreateEventRequest = {
@@ -626,6 +630,20 @@ declare namespace SDK {
 
   type GetCaobaoluMileageResponse = {
     body: ScreenCaobaoluMileage;
+  };
+
+  type GetCaobaoluAirRequest = {
+    query: {
+      filter: {
+        ns: {
+          $regex: string;
+        };
+      };
+    };
+  };
+
+  type GetCaobaoluAirResponse = {
+    body: [AnalysisStatistics];
   };
 
   type Err = {

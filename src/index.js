@@ -486,5 +486,22 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * Get Caobaolu Screen Air Data
+     *
+     * @param {GetCaobaoluAirRequest} req getCaobaoluAir request
+     * @returns {Promise<GetCaobaoluAirResponse>} An array of screen air stat
+     */
+    getCaobaoluAir: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for screen");
+
+      return fetch(`${this.base}/screen/caobaolu/air`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
 }
