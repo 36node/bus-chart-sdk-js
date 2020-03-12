@@ -243,6 +243,23 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * List alert drill down statistics
+     *
+     * @param {ListAlertDrillDownStatisticsRequest} req listAlertDrillDownStatistics request
+     * @returns {Promise<ListAlertDrillDownStatisticsResponse>} An array of alert drill down statistics
+     */
+    listAlertDrillDownStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for analysis");
+
+      return fetch(`${this.base}/analysis/alert-drill-down`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
   /**
    * alert's methods

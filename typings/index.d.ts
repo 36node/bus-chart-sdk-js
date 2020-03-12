@@ -86,6 +86,12 @@ declare namespace SDK {
     listAlertRateStatistics(
       req: ListAlertRateStatisticsRequest
     ): Promise<ListAlertRateStatisticsResponse>;
+    /**
+     * List alert drill down statistics
+     */
+    listAlertDrillDownStatistics(
+      req: ListAlertDrillDownStatisticsRequest
+    ): Promise<ListAlertDrillDownStatisticsResponse>;
   }
   export interface AlertAPI {
     /**
@@ -360,6 +366,26 @@ declare namespace SDK {
 
   type ListAlertRateStatisticsResponse = {
     body: [AnalysisStatistics];
+  };
+
+  type ListAlertDrillDownStatisticsRequest = {
+    query: {
+      filter: {
+        group: string;
+        type: string;
+        ns: {
+          $regex: string;
+        };
+        at: {
+          $gt?: string;
+          $lt?: string;
+        };
+      };
+    };
+  };
+
+  type ListAlertDrillDownStatisticsResponse = {
+    body: [AlertDrillDown];
   };
 
   type ListChartAlertsRequest = {
@@ -795,5 +821,9 @@ declare namespace SDK {
   type ScreenCaobaoluMileage = {
     todayTotalMileage: number;
     averageYearMileage: number;
+  };
+  type AlertDrillDown = {
+    key: string;
+    count: number;
   };
 }
