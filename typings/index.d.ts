@@ -109,6 +109,12 @@ declare namespace SDK {
      */
     listPowerStatistics(req: ListPowerStatisticsRequest): Promise<ListPowerStatisticsResponse>;
     /**
+     * List power aggregations
+     */
+    listPowerAggregations(
+      req: ListPowerAggregationsRequest
+    ): Promise<ListPowerAggregationsResponse>;
+    /**
      * List power chart records
      */
     listPower(req: ListPowerRequest): Promise<ListPowerResponse>;
@@ -467,6 +473,34 @@ declare namespace SDK {
     body: [AnalysisStatistics];
   };
 
+  type ListPowerAggregationsRequest = {
+    query: {
+      limit?: string;
+      offset?: string;
+
+      filter: {
+        no?: string;
+        ns: {
+          $regex: string;
+        };
+        line?: string;
+        producer?: string;
+        modelBrief?: string;
+        at: {
+          $gt: string;
+          $lt: string;
+        };
+      };
+    };
+  };
+
+  type ListPowerAggregationsResponse = {
+    body: [PowerAggregation];
+    headers: {
+      xTotalCount: string;
+    };
+  };
+
   type ListPowerRequest = {
     query: {
       limit?: string;
@@ -738,6 +772,14 @@ declare namespace SDK {
   };
   type AnalysisStatistics = {
     name: string;
+  };
+  type PowerAggregation = {
+    key: string;
+    count: string;
+    totalCharge: number;
+    totalDisCharge: number;
+    totalMileage: number;
+    per100Mileage: number;
   };
   type Power = {
     at: string;

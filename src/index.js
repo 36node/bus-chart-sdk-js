@@ -320,6 +320,23 @@ export default class SDK {
       });
     },
     /**
+     * List power aggregations
+     *
+     * @param {ListPowerAggregationsRequest} req listPowerAggregations request
+     * @returns {Promise<ListPowerAggregationsResponse>} An array of chart power records
+     */
+    listPowerAggregations: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for power");
+
+      return fetch(`${this.base}/power/aggregations`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
      * List power chart records
      *
      * @param {ListPowerRequest} req listPower request
