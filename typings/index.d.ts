@@ -136,6 +136,12 @@ declare namespace SDK {
      * List driver power records
      */
     listDirverPower(req: ListDirverPowerRequest): Promise<ListDirverPowerResponse>;
+    /**
+     * List drviver power aggregations
+     */
+    listDriverPowerAggregations(
+      req: ListDriverPowerAggregationsRequest
+    ): Promise<ListDriverPowerAggregationsResponse>;
   }
   export interface ExceptionAPI {
     /**
@@ -602,6 +608,35 @@ declare namespace SDK {
     };
   };
 
+  type ListDriverPowerAggregationsRequest = {
+    query: {
+      limit?: string;
+      offset?: string;
+      sort?: string;
+
+      filter: {
+        ns: {
+          $regex: string;
+        };
+        driverName: {
+          $regex?: string;
+        };
+        driverNo?: string;
+        date: {
+          $gte: string;
+          $lte: string;
+        };
+      };
+    };
+  };
+
+  type ListDriverPowerAggregationsResponse = {
+    body: [DriverPowerAggregation];
+    headers: {
+      xTotalCount: string;
+    };
+  };
+
   type ListExceptionStatisticsRequest = {
     type: string;
 
@@ -780,6 +815,17 @@ declare namespace SDK {
     totalDisCharge: number;
     totalMileage: number;
     per100Mileage: number;
+  };
+  type DriverPowerAggregation = {
+    id: string;
+    driverName: string;
+    count: string;
+    startDate: string;
+    endDate: string;
+    ns: [string];
+    totalPower: number;
+    totalMileage: number;
+    powerPer100: number;
   };
   type Power = {
     at: string;

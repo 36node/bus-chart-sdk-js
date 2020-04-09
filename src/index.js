@@ -409,6 +409,23 @@ export default class SDK {
         headers: { Authorization: this.auth, ...headers },
       });
     },
+    /**
+     * List drviver power aggregations
+     *
+     * @param {ListDriverPowerAggregationsRequest} req listDriverPowerAggregations request
+     * @returns {Promise<ListDriverPowerAggregationsResponse>} An array of chart driver powers agg
+     */
+    listDriverPowerAggregations: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for banci");
+
+      return fetch(`${this.base}/driver-power/aggregations`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
   };
   /**
    * exception's methods
