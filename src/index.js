@@ -227,6 +227,23 @@ export default class SDK {
       });
     },
     /**
+     * List all alerts statistics
+     *
+     * @param {ListAllAlertsStatisticsRequest} req listAllAlertsStatistics request
+     * @returns {Promise<ListAllAlertsStatisticsResponse>} An array of alert statistics
+     */
+    listAllAlertsStatistics: (req = {}) => {
+      const { query, headers } = req;
+
+      if (!query) throw new Error("query is required for analysis");
+
+      return fetch(`${this.base}/analysis/allAlerts`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+    /**
      * List alert rate statistics
      *
      * @param {ListAlertRateStatisticsRequest} req listAlertRateStatistics request

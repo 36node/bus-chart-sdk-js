@@ -81,6 +81,12 @@ declare namespace SDK {
      */
     listAlertStatistics(req: ListAlertStatisticsRequest): Promise<ListAlertStatisticsResponse>;
     /**
+     * List all alerts statistics
+     */
+    listAllAlertsStatistics(
+      req: ListAllAlertsStatisticsRequest
+    ): Promise<ListAllAlertsStatisticsResponse>;
+    /**
      * List alert rate statistics
      */
     listAlertRateStatistics(
@@ -359,6 +365,24 @@ declare namespace SDK {
   };
 
   type ListAlertStatisticsResponse = {
+    body: [AnalysisStatistics];
+  };
+
+  type ListAllAlertsStatisticsRequest = {
+    query: {
+      filter: {
+        at: {
+          $gt: string;
+          $lt: string;
+        };
+        ns: {
+          $regex: string;
+        };
+      };
+    };
+  };
+
+  type ListAllAlertsStatisticsResponse = {
     body: [AnalysisStatistics];
   };
 
