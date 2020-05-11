@@ -17,6 +17,7 @@ declare class SDK {
   exception: SDK.ExceptionAPI;
   chargeorder: SDK.ChargeorderAPI;
   screen: SDK.ScreenAPI;
+  ticket: SDK.TicketAPI;
 }
 
 declare namespace SDK {
@@ -186,6 +187,14 @@ declare namespace SDK {
      * Get Caobaolu Screen Air Data
      */
     getCaobaoluAir(req: GetCaobaoluAirRequest): Promise<GetCaobaoluAirResponse>;
+  }
+  export interface TicketAPI {
+    /**
+     * List tickets statistics
+     */
+    listTicketsStatistics(
+      req: ListTicketsStatisticsRequest
+    ): Promise<ListTicketsStatisticsResponse>;
   }
 
   type CreateEventRequest = {
@@ -765,6 +774,27 @@ declare namespace SDK {
     body: [AnalysisStatistics];
   };
 
+  type ListTicketsStatisticsRequest = {
+    groupKey: string;
+
+    query: {
+      filter: {
+        ns: {
+          $regex: string;
+        };
+        rootNs: string;
+        at: {
+          $gt: string;
+          $lt: string;
+        };
+      };
+    };
+  };
+
+  type ListTicketsStatisticsResponse = {
+    body: [TicketsStatistics];
+  };
+
   type Err = {
     code: string;
     message: string;
@@ -937,5 +967,10 @@ declare namespace SDK {
   type AlertDrillDown = {
     key: string;
     count: number;
+  };
+  type TicketsStatistics = {
+    group: string;
+    name: string;
+    data: [undefined];
   };
 }

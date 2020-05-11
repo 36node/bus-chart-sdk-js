@@ -572,4 +572,28 @@ export default class SDK {
       });
     },
   };
+  /**
+   * ticket's methods
+   */
+  ticket = {
+    /**
+     * List tickets statistics
+     *
+     * @param {ListTicketsStatisticsRequest} req listTicketsStatistics request
+     * @returns {Promise<ListTicketsStatisticsResponse>} An array of ticket statistics
+     */
+    listTicketsStatistics: (req = {}) => {
+      const { groupKey, query, headers } = req;
+
+      if (!groupKey)
+        throw new Error("groupKey is required for listTicketsStatistics");
+      if (!query) throw new Error("query is required for ticket");
+
+      return fetch(`${this.base}/tickets/statistics/${groupKey}`, {
+        method: "GET",
+        query: denormalize(query),
+        headers: { Authorization: this.auth, ...headers },
+      });
+    },
+  };
 }
