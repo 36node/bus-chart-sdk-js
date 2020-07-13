@@ -65,7 +65,7 @@
     "json-server": "^0.15.1",
     "lint-staged": "^9.2.5",
     "prettier": "1.18.2",
-    "standard-version": "^7.0.0"
+    "standard-version": "^8.0.1"
   },
   "gitHead": "bc14ed62aa377ad246602dc2109f3080e8acdb99"
 }
